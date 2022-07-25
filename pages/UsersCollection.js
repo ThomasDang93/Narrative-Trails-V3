@@ -82,5 +82,5 @@ function UsersCollection() {
             </div> : <h1 className={styles.center}>Connect Wallet</h1>}
         </div>
     );
-}
+};
 export default UsersCollection

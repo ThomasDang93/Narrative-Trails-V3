@@ -104,27 +104,35 @@ function MintLetterBox() {
                 <label htmlFor="letter-plant-name">Name:
                     <input type="text" name="name" id="letter-plant-name" onChange={handleChange}/>
                 </label>
+                <div>&nbsp;</div>
                 <label htmlFor="letter-plant-description">Description:
                     <textarea type="textarea" name="description" rows="4" cols="50" id="letter-plant-description" onChange={handleChange}/>
                 </label>
+                <div>&nbsp;</div>
                 <label htmlFor="letter-plant-lattitude">Lattitude:
                     <input type="text" name="lattitude" id="letter-plant-lattitude" onChange={handleChange}/>
                 </label>
+                <div>&nbsp;</div>
                 <label htmlFor="letter-plant-longitude">Longitude:
                     <input type="text" name="longitude" id="letter-plant-longitude" onChange={handleChange}/>
                 </label>
+                <div>&nbsp;</div>
                 <label htmlFor="letter-plant-city">City:
                     <input type="text" name="city" id="letter-plant-city"onChange={handleChange}/>
                 </label>
+                <div>&nbsp;</div>
                 <label htmlFor="letter-plant-state">State:
                     <input type="text" name="state" id="letter-plant-state"onChange={handleChange}/>
                 </label>
+                <div>&nbsp;</div>
                 <label htmlFor="letter-plant-country">Country: 
                     <input type="text" name="country" id="letter-plant-country"onChange={handleChange}/>
                 </label>
+                <div>&nbsp;</div>
                 <label htmlFor="letter-plant-zip">Zip Code:
                     <input type="text" name="zip" id="letter-plant-zip"onChange={handleChange}/>
                 </label>
+                <div>&nbsp;</div>
                 <label htmlFor="letter-plant-upload">Upload: 
                     <input type="file" id="letter-plant-upload"onChange={handleFileChange}/>
                 </label>
@@ -133,5 +141,5 @@ function MintLetterBox() {
             </form> : <h1 className={styles.center}>Connect Wallet</h1>}
         </div>
     );
-}
+};
 export default MintLetterBox;

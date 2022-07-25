@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-//import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { useWeb3React } from "@web3-react/core";
@@ -15,7 +14,6 @@ const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 
 function Letterbox () {
   const [hasMetamask, setHasMetamask] = useState(false);
-  //const { id } = useParams();
   const router = useRouter();
   const id = router.query.id;
   const {
@@ -51,7 +49,6 @@ function Letterbox () {
 
   async function getLetterBox() {
     const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
-    console.log("ID: ", id)
     let iboxURI = await contract.letterboxMetadataURI(id);
     console.log("iboxURI = ", iboxURI)
     let letterboxList;
@@ -70,7 +67,6 @@ function Letterbox () {
                 zip: data.properties.zip
         }});
 
-    console.log("ID: ", id);
     let resources = await contract.getFullResources(id);
     let stampList = [];
     for(let i = 1; i < resources.length; i++) {
@@ -96,7 +92,7 @@ function Letterbox () {
         state: letterboxList.state,
         zip: letterboxList.zip,
         stampBoxList: stampList
-    })
+    });
   };
 
   async function connect() {
@@ -108,29 +104,29 @@ function Letterbox () {
         console.log(e);
       }
     }
-  }
+  };
 
   async function foundLetterbox() {
-      if (active) {
-        console.log(provider.getSigner())
-        const signer = provider.getSigner();
-        const contractAddress = DEPLOYED_CONTRACT_ADDRESS;
-        const contract = new ethers.Contract(contractAddress, LetterBoxingABI["abi"], signer);
-        try{
-          let letterboxResources = await contract.getFullResources(id);
-          console.log('letterbox resource count: ', letterboxResources.length);
-          await contract.stampToLetterbox(account, id, true);
-          await contract.letterboxToStamp(account, id, {gasLimit:500000});
-          letterboxResources = await contract.getFullResources(id);
+    if (active) {
+      console.log(provider.getSigner())
+      const signer = provider.getSigner();
+      const contractAddress = DEPLOYED_CONTRACT_ADDRESS;
+      const contract = new ethers.Contract(contractAddress, LetterBoxingABI["abi"], signer);
+      try{
+        let letterboxResources = await contract.getFullResources(id);
+        console.log('letterbox resource count: ', letterboxResources.length);
+        await contract.stampToLetterbox(account, id, true);
+        await contract.letterboxToStamp(account, id, {gasLimit:500000});
+        letterboxResources = await contract.getFullResources(id);
 
-        } catch(error) {
-          console.log(error);
-        }
-          
-      } else {
-        console.log("Please install MetaMask");
+      } catch(error) {
+        console.log(error);
       }
+        
+    } else {
+      console.log("Please install MetaMask");
     }
+  };
 
   return (
     <div>
@@ -150,20 +146,6 @@ function Letterbox () {
         )}
       
       <div className={styles.center}>
-        {/* <Card>
-            <CardImg top width="100%" src={ state.src} alt="Card image cap" />
-            <CardBody>
-              <CardTitle><h1>{state.name} {" #"}{id}</h1></CardTitle>
-              <CardText>{<b>Description: </b>} {state.description}</CardText>
-              <CardText>{<b>City: </b>} {state.city}</CardText>
-              <CardText>{<b>State: </b>} {state.state}</CardText>
-              <CardText>{<b>Country: </b>} {state.country}</CardText>
-              <CardText>{<b>Zip: </b>} {state.zip}</CardText>
-              <CardText>{<b>Lattitude: </b>} {state.lattitude}</CardText>
-              <CardText>{<b>Longitude: </b>} {state.longitude}</CardText>
-              <CardText>{<b>City: </b>} {state.city}</CardText>
-            </CardBody>
-          </Card> */}
           <img src={state.src} alt="Image cap" top width="100%"></img>
             <h1>{state.name} {" #"}{id}</h1>
             {<b>Description: </b>} {state.description}
@@ -189,6 +171,6 @@ function Letterbox () {
       </div> 
     </div>
   );
-}
+};
  
 export default Letterbox

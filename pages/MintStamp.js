@@ -152,27 +152,35 @@ function MintStamp() {
                 <label htmlFor="letter-stamp-name">Name:
                     <input type="text" name="name" id="letter-stamp-name" onChange={handleChange}/>
                 </label>
+                <div>&nbsp;</div>
                 <label htmlFor="letter-stamp-description">Description:
                     <textarea type="text" name="description" rows="4" cols="50" id="letter-stamp-description" onChange={handleChange}/>
                 </label>
+                <div>&nbsp;</div>
                 <label htmlFor="letter-stamp-lattitude">Lattitude:
                     <input type="text" name="lattitude" id="letter-stamp-lattitude" onChange={handleChange}/>
                 </label>
+                <div>&nbsp;</div>
                 <label htmlFor="letter-stamp-longitude">Longitude:
                     <input type="text" name="longitude" id="letter-stamp-longitude" onChange={handleChange}/>
                 </label>
+                <div>&nbsp;</div>
                 <label htmlFor="letter-stamp-city">City:
                     <input type="text" name="city" id="letter-stamp-city"onChange={handleChange}/>
                 </label>
+                <div>&nbsp;</div>
                 <label htmlFor="letter-stamp-state">State:
                     <input type="text" name="state" id="letter-stamp-state"onChange={handleChange}/>
                 </label>
+                <div>&nbsp;</div>
                 <label htmlFor="letter-stamp-country">Country: 
                     <input type="text" name="country" id="letter-stamp-country"onChange={handleChange}/>
                 </label>
+                <div>&nbsp;</div>
                 <label htmlFor="letter-stamp-zip">Zip Code:
                     <input type="text" name="zip" id="letter-stamp-zip"onChange={handleChange}/>
                 </label>
+                <div>&nbsp;</div>
                 <label htmlFor="letter-stamp-upload">Upload: 
                     <input type="file" id="letter-stamp-upload"onChange={handleFileChange}/>
                 </label>

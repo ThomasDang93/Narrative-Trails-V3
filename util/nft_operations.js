@@ -29,14 +29,14 @@ export async function ipfsUpload(data) {
         key: data.metadataPath + uuid(),
         data: JSON.stringify(metaData),
       });
-    console.log(metaDataResult)
+    console.log(metaDataResult);
     return metaDataResult;
     
   } catch (e) {
     console.log(e);
   }
     
-}
+};
 
 export async function getUserStamp(data) {
   
@@ -66,11 +66,11 @@ export async function getUserStamp(data) {
             })
         });
   return stampList;
-}
+};
 
 function uuid() {
   var temp_url = URL.createObjectURL(new Blob());
   var uuid = temp_url.toString();
   URL.revokeObjectURL(temp_url);
   return uuid.substr(uuid.lastIndexOf('/') + 1); // remove prefix (e.g. blob:null/, blob:www.test.com/, ...)
-}
+};

@@ -24,6 +24,6 @@ function WalletProvider({ children }) {
     return children;
   }
   return <>Loading</>;
-}
+};
 
 export default WalletProvider;

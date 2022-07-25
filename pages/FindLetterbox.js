@@ -37,7 +37,7 @@ function FindLetterbox() {
             console.log(e);
           }
         }
-      }
+    };
 
     async function getNFTs() {
         const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
@@ -51,7 +51,7 @@ function FindLetterbox() {
             );
 
             let iboxURI = iboxResources[0].metadataURI;
-            console.log("iboxURI = ", iboxURI)
+            console.log("iboxURI = ", iboxURI);
             //fetch on the above url to actually retrieve json as json
             await fetch(iboxURI)
                 .then(response => response.json())
@@ -69,21 +69,19 @@ function FindLetterbox() {
                     zip: data.properties.zip
                     })
                 });
-
         }
         setState({
             ...state,
             letterBoxList: letterBoxList
         });
-      }
+      };
 
-      useEffect(() => {
+    useEffect(() => {
         if (typeof window.ethereum !== "undefined") {
-          setHasMetamask(true);
+            setHasMetamask(true);
         }
-      });
+    });
       
-    
     return (
         <div >
             {console.log('State Context: ', state)}
@@ -113,5 +111,5 @@ function FindLetterbox() {
            
         </div>
     );
-}
+};
 export default FindLetterbox;

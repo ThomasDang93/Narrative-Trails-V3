@@ -3,13 +3,13 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 const NotFound = () => {
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     setTimeout(() => {
       router.push('/')
     }, 3000)
-  }, [])
+  }, []);
 
   return (
     <div className="not-found">
@@ -18,6 +18,6 @@ const NotFound = () => {
       <p>Going back to the <Link href="/"><a>Homepage</a></Link> is 3 seconds...</p>
     </div>
   );
-}
+};
  
 export default NotFound;

@@ -67,19 +67,19 @@ function Stamp ({id}) {
                 state: data.properties.state,
                 zip: data.properties.zip
 
-        }})
+        }});
 
         let letterBoxMeta = [];
         for(let i = 1; i < userResources.length; i++) {
           let resourceURI = userResources[i].metadataURI;
-          console.log("resource URI: ", resourceURI)
+          console.log("resource URI: ", resourceURI);
           await fetch(resourceURI)
               .then(response => response.json())
               .then(data => {
                       letterBoxMeta.push({
                         src: data.media_uri_image
                       });
-                  })
+                  });
         }
     setState({
         ...state,
@@ -123,44 +123,29 @@ function Stamp ({id}) {
             <div className={styles.topright}>Please Install Metamask</div>
         )}
         <div className={styles.center}>
-          {/* <Card>
-              <CardImg top width="100%" src={ state.src} alt="Card image cap" />
-              <CardBody>
-                <CardTitle><h1>{state.name} {" #"}{id}</h1></CardTitle>
-                <CardText>{<b>Description: </b>} {state.description}</CardText>
-                <CardText>{<b>City: </b>} {state.city}</CardText>
-                <CardText>{<b>State: </b>} {state.state}</CardText>
-                <CardText>{<b>Country: </b>} {state.country}</CardText>
-                <CardText>{<b>Zip: </b>} {state.zip}</CardText>
-                <CardText>{<b>Lattitude: </b>} {state.lattitude}</CardText>
-                <CardText>{<b>Longitude: </b>} {state.longitude}</CardText>
-                <CardText>{<b>City: </b>} {state.city}</CardText>
-              </CardBody>
-            </Card>
-             */}
-            <img src={state.src} alt="Image cap" top width="100%"></img>
-            <h1>{state.name} {" #"}{id}</h1>
-            {<b>Description: </b>} {state.description}
-            <div>&nbsp;</div>
-            {<b>City: </b>} {state.city}
-            <div>&nbsp;</div>
-            {<b>State: </b>} {state.state}
-            <div>&nbsp;</div>
-            {<b>Country: </b>} {state.country}
-            <div>&nbsp;</div>
-            {<b>Zip: </b>} {state.zip}
-            <div>&nbsp;</div>
-            {<b>Lattitude: </b>} {state.lattitude}
-            <div>&nbsp;</div>
-            {<b>Longitude: </b>} {state.longitude}
-            <div>&nbsp;</div>
-            {<b>City: </b>} {state.city}
-            <div>&nbsp;</div>
-            <h2>Letterboxes</h2>
-            <StampResources letterbox={state}/>
+          <img src={state.src} alt="Image cap" top width="100%"></img>
+          <h1>{state.name} {" #"}{id}</h1>
+          {<b>Description: </b>} {state.description}
+          <div>&nbsp;</div>
+          {<b>City: </b>} {state.city}
+          <div>&nbsp;</div>
+          {<b>State: </b>} {state.state}
+          <div>&nbsp;</div>
+          {<b>Country: </b>} {state.country}
+          <div>&nbsp;</div>
+          {<b>Zip: </b>} {state.zip}
+          <div>&nbsp;</div>
+          {<b>Lattitude: </b>} {state.lattitude}
+          <div>&nbsp;</div>
+          {<b>Longitude: </b>} {state.longitude}
+          <div>&nbsp;</div>
+          {<b>City: </b>} {state.city}
+          <div>&nbsp;</div>
+          <h2>Letterboxes</h2>
+          <StampResources letterbox={state}/>
       </div>
     </div>
   );
-}
+};
  
 export default Stamp;

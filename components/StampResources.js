@@ -5,18 +5,15 @@ function StampResources ({ letterbox }) {
         {letterbox.letterBoxList.length > 0 ? 
         letterbox.letterBoxList.map(function(props) {
             return (
-            <div key={props.id} >
-              {/* <Card>
-                  <CardImg top width="100%" src={ props.src} alt="Card image cap" />
-              </Card> */}
-              <img src={props.src} alt="Image cap" top width="100%"></img>
-            </div>
+                <div key={props.id} >
+                <img src={props.src} alt="Image cap" top width="100%"></img>
+                </div>
             );
         })
         : ""}
 
     </div>
   );
-}
+};
  
 export default StampResources;

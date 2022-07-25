@@ -22,5 +22,5 @@ export default function Home() {
         <h2 className={styles.title}>Multi-resource NFTs bring the fun on-chain</h2>
         <a className={styles.btn} href="https://narrativetrails.xyz/" target="_blank" rel="noopener noreferrer">About</a>
     </div>
-  )
-}
+  );
+};

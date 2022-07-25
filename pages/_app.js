@@ -14,10 +14,10 @@ function MyApp({ Component, pageProps }) {
       </Web3ReactProvider>
     </Layout>
   );
-}
+};
 
 export default MyApp;
 
 const getLibrary = (provider) => {
   return new Web3Provider(provider);
-}
+};
