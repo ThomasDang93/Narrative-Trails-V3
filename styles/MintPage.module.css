@@ -1,0 +1,43 @@
+.topright {
+    line-height: 24px;
+       width: 56px;
+       font-size: 8pt;
+       font-family: tahoma;
+       margin-top: 20px;
+       margin-right: 40px;
+       position:absolute;
+       top:0;
+       right:0;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+  }
+  
+  .grid img {
+    width: 100%;
+  }
+  
+  .container {
+    columns: 2 auto;
+  }
+  .submitbtn {
+    display: block;
+    width: 150px;
+    padding: 8px 0;
+    margin: 20px auto;
+    background: #05a810;
+    border-radius: 4px;
+    color: white;
+    text-align: center;
+  }
+  
+  .center {
+    text-align: center;
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    padding: 10px;
+  }

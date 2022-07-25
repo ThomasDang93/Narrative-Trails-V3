@@ -9,6 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fleekhq/fleek-storage-js": "^1.0.22",
+    "@web3-react/core": "^6.1.9",
+    "@web3-react/injected-connector": "^6.0.7",
+    "ethers": "^5.6.9",
+    "events": "^3.3.0",
     "next": "12.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0"
@@ -16,5 +21,22 @@
   "devDependencies": {
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all",
+      "chrome >= 67",
+      "edge >= 79",
+      "firefox >= 68",
+      "opera >= 54",
+      "safari >= 14"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
