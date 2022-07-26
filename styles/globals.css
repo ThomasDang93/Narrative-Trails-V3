@@ -45,3 +45,7 @@ footer {
   color: #4979ff;
   text-decoration: underline;
 }
+form {
+  width: 300px;
+  margin: 0 auto;
+}
