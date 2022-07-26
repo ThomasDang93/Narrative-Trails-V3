@@ -146,51 +146,82 @@ function MintStamp() {
             )}
              {console.log('Stamp URL: ', state.stampList)}
             {active ? 
-            <form onSubmit={handleSubmit}>
-                <h1>Mint a Stamp</h1>
+            <form className="w-full max-w-lg" onSubmit={handleSubmit}>
+                <h1 className={styles.center}>Make Stamp</h1>
                 <div>&nbsp;</div>
-                <label htmlFor="letter-stamp-name">Name:
-                    <input type="text" name="name" id="letter-stamp-name" onChange={handleChange}/>
-                </label>
-                <div>&nbsp;</div>
-                <label htmlFor="letter-stamp-description">Description:
-                    <textarea type="text" name="description" rows="4" cols="50" id="letter-stamp-description" onChange={handleChange}/>
-                </label>
-                <div>&nbsp;</div>
-                <label htmlFor="letter-stamp-lattitude">Lattitude:
-                    <input type="text" name="lattitude" id="letter-stamp-lattitude" onChange={handleChange}/>
-                </label>
-                <div>&nbsp;</div>
-                <label htmlFor="letter-stamp-longitude">Longitude:
-                    <input type="text" name="longitude" id="letter-stamp-longitude" onChange={handleChange}/>
-                </label>
-                <div>&nbsp;</div>
-                <label htmlFor="letter-stamp-city">City:
-                    <input type="text" name="city" id="letter-stamp-city"onChange={handleChange}/>
-                </label>
-                <div>&nbsp;</div>
-                <label htmlFor="letter-stamp-state">State:
-                    <input type="text" name="state" id="letter-stamp-state"onChange={handleChange}/>
-                </label>
-                <div>&nbsp;</div>
-                <label htmlFor="letter-stamp-country">Country: 
-                    <input type="text" name="country" id="letter-stamp-country"onChange={handleChange}/>
-                </label>
-                <div>&nbsp;</div>
-                <label htmlFor="letter-stamp-zip">Zip Code:
-                    <input type="text" name="zip" id="letter-stamp-zip"onChange={handleChange}/>
-                </label>
-                <div>&nbsp;</div>
-                <label htmlFor="letter-stamp-upload">Upload: 
-                    <input type="file" id="letter-stamp-upload"onChange={handleFileChange}/>
-                </label>
-                <div>&nbsp;</div>
-                <button type="submit"className={styles.submitbtn}>Mint</button>
-                <div>&nbsp;</div>
-                {<div>
-                    <h2>Your Current Stamp</h2>
-                    <UserStamp stamp={state}/>
-                </div>}
+                <div className={styles.center}>
+                    <div className="flex flex-wrap -mx-3 mb-6 ">
+                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="name">
+                            Name
+                        </label>
+                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="name" name="name" type="text" placeholder="Jane" onChange={handleChange}/>
+                        <p className="text-red-500 text-xs italic">Please fill out this field.</p>
+                    </div>
+                    <div className="w-full md:w-1/2 px-3">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="upload">
+                        Upload
+                        </label>
+                        <input className="appearance-none text-gray-700 py-3 px-4 " id="upload" name="upload"type="file" onChange={handleFileChange}/>
+                    </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                    <div className="w-full px-3">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="description">
+                        Description
+                        </label>
+                        <textarea className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" rows="4" id="description" name="description" type="textarea" placeholder="Enter instructions here" onChange={handleChange}/>
+                    </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-3 mb-2">
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="lattitude">
+                        Lattitude
+                        </label>
+                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="lattitude" name="lattitude" type="text" placeholder="30.0455542" onChange={handleChange}/>
+                    </div>
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="longitude">
+                        Longitude
+                        </label>
+                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="longitude" name="longitude" type="text" placeholder="-99.1405168" onChange={handleChange}/>
+                    </div>
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="zip">
+                        Zip
+                        </label>
+                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="zip" name="zip" type="text" placeholder="90210" onChange={handleChange}/>
+                    </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-3 mb-2">
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="city">
+                        City
+                        </label>
+                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="city" name="city" type="text" placeholder="Miami" onChange={handleChange}/>
+                    </div>
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="state">
+                        State
+                        </label>
+                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="state" name="state" type="text" placeholder="Florida" onChange={handleChange}/>
+                    </div>
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="country">
+                        Country
+                        </label>
+                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="country" name="country" type="text" placeholder="USA" onChange={handleChange}/>
+                    </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-3 mb-2">
+                        <button type="submit"className={styles.submitbtn}>Mint</button>
+                    </div>
+            
+                    {<div>
+                        <h2>Your Current Stamp</h2>
+                        <UserStamp stamp={state}/>
+                    </div>}
+                </div>
             </form> : <h1 className={styles.center}>Connect Wallet</h1>}
         </div>
     );
