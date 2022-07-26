@@ -131,8 +131,6 @@ function Letterbox () {
   return (
     <div>
         {console.log("State: ", state)}
-        {console.log("State: ", state)}
-        {console.log('State Context: ', state)}
         {console.log('Account Context: ', account)}
         {console.log('Account Active: ', active)}
         {hasMetamask ? (

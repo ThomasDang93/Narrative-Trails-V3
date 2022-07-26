@@ -7,13 +7,16 @@ import styles from '../../styles/MintPage.module.css';
 import LetterBoxingABI from "../../util/LetterBoxing.json";
 import * as  constants from '../../util/constants.js';
 import StampResources from '../../components/StampResources.js';
+import { useRouter } from 'next/router';
 
 export const injected = new InjectedConnector();
 
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 
-function Stamp ({id}) {
+function Stamp () {
   const [hasMetamask, setHasMetamask] = useState(false);
+  const router = useRouter();
+  const id = router.query.id;
   const {
     active,
     activate,
@@ -109,7 +112,6 @@ function Stamp ({id}) {
   return (
     <div>
         {console.log("State: ", state)}
-        {console.log('State Context: ', state)}
         {console.log('Account Context: ', account)}
         {console.log('Account Active: ', active)}
         {console.log('ID: ', id)}
