@@ -7,6 +7,7 @@ import styles from '../../styles/MintPage.module.css';
 import LetterBoxingABI from "../../util/LetterBoxing.json";
 import StampList from "../../components/StampList";
 import * as  constants from '../../util/constants.js';
+import Map from '../../components/Map';
 
 export const injected = new InjectedConnector();
 
@@ -142,9 +143,40 @@ function Letterbox () {
         ) : (
             <div className={styles.topright}>Please Install Metamask</div>
         )}
-      
-      <div className={styles.center}>
+      <div className="flex mb-4">
+        <div className="w-full md:w-1/2 px-5">
           <img src={state.src} alt="Image cap" top width="100%"></img>
+          <div>&nbsp;</div>
+          <button className={styles.submitbtn} onClick={() => foundLetterbox()}>I found it!</button> 
+          <div>&nbsp;</div>
+          <h2>Resources</h2>
+          <StampList stampList={state}/>
+        </div>
+        <div className="w-full md:w-1/2 px-5">
+          <h1>{<b>Name: </b>} {state.name} {" #"}{id}</h1>
+          <div>&nbsp;</div>
+          {<b>Description: </b>} {state.description}
+          <div>&nbsp;</div>
+          {<b>City: </b>} {state.city}
+          <div>&nbsp;</div>
+          {<b>State: </b>} {state.state}
+          <div>&nbsp;</div>
+          {<b>Country: </b>} {state.country}
+          <div>&nbsp;</div>
+          {<b>Zip: </b>} {state.zip}
+          <div>&nbsp;</div>
+          {<b>Lattitude: </b>} {state.lattitude}
+          <div>&nbsp;</div>
+          {<b>Longitude: </b>} {state.longitude}
+          <div>&nbsp;</div>
+          {<b>City: </b>} {state.city}
+          <div>&nbsp;</div>
+          <Map state={state}/>
+        </div>
+      </div>
+      
+      {/* <div className={styles.center}>
+          
             <h1>{state.name} {" #"}{id}</h1>
             {<b>Description: </b>} {state.description}
             <div>&nbsp;</div>
@@ -161,12 +193,11 @@ function Letterbox () {
             {<b>Longitude: </b>} {state.longitude}
             <div>&nbsp;</div>
             {<b>City: </b>} {state.city}
-            <div>&nbsp;</div>
-          <button className={styles.submitbtn} onClick={() => foundLetterbox()}>I found it!</button> 
-          <div>&nbsp;</div>
-          <h2>Resources</h2>
-        <StampList stampList={state}/>
-      </div> 
+            
+          
+        <div>&nbsp;</div>
+        <Map state={state}/>
+      </div>  */}
     </div>
   );
 };

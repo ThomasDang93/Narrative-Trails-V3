@@ -8,6 +8,7 @@ import LetterBoxingABI from "../../util/LetterBoxing.json";
 import * as  constants from '../../util/constants.js';
 import StampResources from '../../components/StampResources.js';
 import { useRouter } from 'next/router';
+import Map from '../../components/Map';
 
 export const injected = new InjectedConnector();
 
@@ -124,28 +125,36 @@ function Stamp () {
         ) : (
             <div className={styles.topright}>Please Install Metamask</div>
         )}
-        <div className={styles.center}>
-          <img src={state.src} alt="Image cap" top width="100%"></img>
-          <h1>{state.name} {" #"}{id}</h1>
-          {<b>Description: </b>} {state.description}
-          <div>&nbsp;</div>
-          {<b>City: </b>} {state.city}
-          <div>&nbsp;</div>
-          {<b>State: </b>} {state.state}
-          <div>&nbsp;</div>
-          {<b>Country: </b>} {state.country}
-          <div>&nbsp;</div>
-          {<b>Zip: </b>} {state.zip}
-          <div>&nbsp;</div>
-          {<b>Lattitude: </b>} {state.lattitude}
-          <div>&nbsp;</div>
-          {<b>Longitude: </b>} {state.longitude}
-          <div>&nbsp;</div>
-          {<b>City: </b>} {state.city}
-          <div>&nbsp;</div>
-          <h2>Letterboxes</h2>
-          <StampResources letterbox={state}/>
-      </div>
+        <div className="flex mb-4">
+          <div className="w-full md:w-1/2 px-5">
+            <h1>Stamp</h1>
+            <img src={state.src} alt="Image cap" top width="100%"></img>
+            <div>&nbsp;</div>
+            <h2>Letterboxes</h2>
+            <StampResources letterbox={state}/>
+          </div>
+          <div className="w-full md:w-1/2 px-5">
+            <h1>{<b>Name: </b>} {state.name} {" #"}{id}</h1>
+            <div>&nbsp;</div>
+            {<b>Description: </b>} {state.description}
+            <div>&nbsp;</div>
+            {<b>City: </b>} {state.city}
+            <div>&nbsp;</div>
+            {<b>State: </b>} {state.state}
+            <div>&nbsp;</div>
+            {<b>Country: </b>} {state.country}
+            <div>&nbsp;</div>
+            {<b>Zip: </b>} {state.zip}
+            <div>&nbsp;</div>
+            {<b>Lattitude: </b>} {state.lattitude}
+            <div>&nbsp;</div>
+            {<b>Longitude: </b>} {state.longitude}
+            <div>&nbsp;</div>
+            {<b>City: </b>} {state.city}
+            <div>&nbsp;</div>
+            <Map state={state}/>
+          </div>
+        </div>
     </div>
   );
 };
