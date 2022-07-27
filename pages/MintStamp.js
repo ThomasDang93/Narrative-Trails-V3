@@ -146,7 +146,6 @@ function MintStamp() {
                 <div className={styles.topright}>Please Install Metamask</div>
             )}
              {console.log('Stamp URL: ', state.stampList)}
-            {active ? 
             <form className="w-full max-w-lg" onSubmit={handleSubmit}>
                 <h1 className={styles.center}>Make Stamp</h1>
                 <div>&nbsp;</div>
@@ -219,18 +218,13 @@ function MintStamp() {
                             <div className="flex flex-wrap -mx-3 mb-2">
                                 <button type="submit"className={styles.submitbtn}>Mint</button>
                                 <p className={styles.center}>Minting has been temporarily disabled for this page</p>
+                                <h1 className={styles.center}>Your Current Stamp</h1>
+                                <UserStamp stamp={state}/>
                             </div>
                             : <p className={styles.center}>Connect Wallet</p>
                     }
-            
-                    {
-                        <div>
-                            <h1>Your Current Stamp</h1>
-                            <UserStamp stamp={state}/>
-                        </div>
-                    }
                 </div>
-            </form> : <h1 className={styles.center}>Connect Wallet</h1>}
+            </form> 
         </div>
     );
 }
