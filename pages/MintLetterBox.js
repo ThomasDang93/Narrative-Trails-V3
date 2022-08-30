@@ -38,23 +38,93 @@ function MintLetterBox() {
 
     const handleSubmit = async(event) => {
         event.preventDefault();
-        let condition1 = state.name !== "" && state.lattitude !== "" && state.longitude !== "";
-        let condition2 = state.description !== "" && state.city !== "" && state.state !== "";
-        let condition3 = state.country !== "" && state.zip !== "" && state.isLetterBox === true;
-        if(condition1 && condition2 && condition3) {
-            let metaDataResult = await ipfsUpload({
-                fleek: fleek,
-                file: file,
-                imagePath: constants.LETTERBOX_IMAGE_PATH,
-                metadataPath: constants.LETTERBOX_METADATA_PATH,
-                state: state
-            });
-            const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
-
-            contract.mintLetterbox(account, metaDataResult.publicUrl);
+        const form = handleValidation();
+        if(form.validation) {
+            const confirmation = confirm("Are you sure you want to mint?");
+            if(confirmation) {
+                let metaDataResult = await ipfsUpload({
+                    fleek: fleek,
+                    file: file,
+                    imagePath: constants.LETTERBOX_IMAGE_PATH,
+                    metadataPath: constants.LETTERBOX_METADATA_PATH,
+                    state: state
+                });
+                const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
+                contract.mintLetterbox(account, metaDataResult.publicUrl);
+            }
         } else {
-            alert("Please enter value for all fields");
+            let message = '';
+            for(let key in form.message) {
+                if(form.message.hasOwnProperty(key)) {
+                    message += form.message[key] + '. \n';
+                }
+            }
+            alert(message);
         }
+    };
+
+    function handleValidation() {
+        let fields = state;
+        let errors = {};
+        let formIsValid = true;
+        if (!fields["name"]) {
+          formIsValid = false;
+          errors["name"] = "Name cannot be empty";
+        }
+
+        if (!fields["description"]) {
+            formIsValid = false;
+            errors["description"] = "Description cannot be empty";
+        }
+        if (!file["type"]) {
+            formIsValid = false;
+            errors["type"] = "File upload cannot be empty";
+        }
+        if (!fields["lattitude"]) {
+            formIsValid = false;
+            errors["type"] = "Latitude cannot be empty";
+        }
+        if (isNaN(fields["lattitude"]) === true) {
+            formIsValid = false;
+            errors["type"] = "Latitude must be a number";
+        }
+        if (!fields["longitude"]) {
+            formIsValid = false;
+            errors["type"] = "Longitude cannot be empty";
+        }
+        if (isNaN(fields["longitude"]) === true) {
+            formIsValid = false;
+            errors["type"] = "Longitude must be a number";
+        }
+        if (!fields["country"]) {
+            formIsValid = false;
+            errors["type"] = "Country cannot be empty";
+        }
+        if (!fields["zip"]) {
+            formIsValid = false;
+            errors["type"] = "Zip cannot be empty";
+        }
+        let pattern = /^[0-9]{5}(?:-[0-9]{4})?$/;
+        if (!pattern.test(fields["zip"])) {
+            formIsValid = false;
+            errors["type"] = "Zip is not valid";
+        }
+        if (!fields["city"]) {
+            formIsValid = false;
+            errors["type"] = "City cannot be empty";
+        }
+        if (!fields["state"]) {
+            formIsValid = false;
+            errors["type"] = "State cannot be empty";
+        }
+        setState({ 
+            ...state, 
+            errors: errors 
+        });
+        return {
+            validation: formIsValid,
+            message: errors
+        };
     };
 
     function handleFileChange(event) {

@@ -41,19 +41,29 @@ function MintStamp() {
 
     const handleSubmit = async(event) => {
         event.preventDefault();
-        if(handleValidation()) {
-            let metaDataResult = await ipfsUpload({
-                fleek: fleek,
-                file: file,
-                imagePath: constants.STAMP_IMAGE_PATH,
-                metadataPath: constants.STAMP_METADATA_PATH,
-                state: state
-            });
-            const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
-            contract.mintStamp(account, metaDataResult.publicUrl);
+        const form = handleValidation();
+        if(form.validation) {
+            const confirmation = confirm("Are you sure you want to mint?");
+            if(confirmation) {
+                let metaDataResult = await ipfsUpload({
+                    fleek: fleek,
+                    file: file,
+                    imagePath: constants.STAMP_IMAGE_PATH,
+                    metadataPath: constants.STAMP_METADATA_PATH,
+                    state: state
+                });
+                const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
+                contract.mintStamp(account, metaDataResult.publicUrl);
+            }
 
         } else {
-            alert("Please enter value for mandatory fields");
+            let message = '';
+            for(let key in form.message) {
+                if(form.message.hasOwnProperty(key)) {
+                    message += form.message[key] + '. \n';
+                }
+            }
+            alert(message);
         }
     };
 
@@ -64,22 +74,25 @@ function MintStamp() {
     
         if (!fields["name"]) {
           formIsValid = false;
-          errors["name"] = "Cannot be empty";
+          errors["name"] = "Name cannot be empty";
         }
 
         if (!fields["description"]) {
             formIsValid = false;
-            errors["description"] = "Cannot be empty";
+            errors["description"] = "Description cannot be empty";
         }
         if (!file["type"]) {
             formIsValid = false;
-            errors["type"] = "Cannot be empty";
+            errors["type"] = "File Upload cannot be empty";
         }
         setState({ 
             ...state, 
             errors: errors 
         });
-        return formIsValid;
+        return {
+            validation: formIsValid, 
+            message: errors
+        }
     };
 
     function handleFileChange(event) {
@@ -167,50 +180,9 @@ function MintStamp() {
                     <div className="flex flex-wrap -mx-3 mb-6">
                         <div className="w-full px-3">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="description">
-                            Description
+                            A brief public bio or other text you&apos;d want to appear with your stamp
                             </label>
                             <textarea className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" rows="4" id="description" name="description" type="textarea" placeholder="Enter instructions here" onChange={handleChange}/>
-                        </div>
-                    </div>
-                    <Map state={state}/>
-                    <div className="flex flex-wrap -mx-3 mb-2">
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="lattitude">
-                            Latitude
-                            </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="lattitude" name="lattitude" type="text" placeholder="30.0455542" onChange={handleChange}/>
-                        </div>
-                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="longitude">
-                        Longitude
-                        </label>
-                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="longitude" name="longitude" type="text" placeholder="-99.1405168" onChange={handleChange}/>
-                    </div>
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="zip">
-                            Zip
-                            </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="zip" name="zip" type="text" placeholder="90210" onChange={handleChange}/>
-                        </div>
-                    </div>
-                    <div className="flex flex-wrap -mx-3 mb-2">
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="city">
-                            City
-                            </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="city" name="city" type="text" placeholder="Miami" onChange={handleChange}/>
-                        </div>
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="state">
-                            State
-                            </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="state" name="state" type="text" placeholder="Florida" onChange={handleChange}/>
-                        </div>
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="country">
-                            Country
-                            </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="country" name="country" type="text" placeholder="USA" onChange={handleChange}/>
                         </div>
                     </div>
                     {
