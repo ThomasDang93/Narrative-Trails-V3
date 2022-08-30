@@ -240,7 +240,6 @@ function MintLetterBox() {
                         active ?
                             <div className="flex flex-wrap -mx-3 mb-2">
                                 <button type="submit" className={styles.submitbtn}>Mint</button>
-                                <p className={styles.center}>Minting has been temporarily disabled for this page</p>
                             </div>
                             : <p className={styles.center}>Connect Wallet</p>
                     }
