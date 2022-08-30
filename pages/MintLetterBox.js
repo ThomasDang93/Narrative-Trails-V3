@@ -104,6 +104,11 @@ function MintLetterBox() {
             formIsValid = false;
             errors["type"] = "Zip cannot be empty";
         }
+        let pattern = /^[0-9]{5}(?:-[0-9]{4})?$/;
+        if (!pattern.test(fields["zip"])) {
+            formIsValid = false;
+            errors["type"] = "Zip is not valid";
+        }
         if (!fields["city"]) {
             formIsValid = false;
             errors["type"] = "City cannot be empty";
