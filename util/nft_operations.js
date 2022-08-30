@@ -3,8 +3,8 @@ export async function ipfsUpload(data) {
     const formData = new FormData();
     formData.append('File', data.file);
     const pictureResult = await data.fleek.upload( {
-        apiKey: process.env.REACT_APP_FLEEK_API_KEY,
-        apiSecret: process.env.REACT_APP_FLEEK_API_SECRET,
+        apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
+        apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
         key: data.imagePath + uuid(),
         data: formData.get('File'),
       });
@@ -24,8 +24,8 @@ export async function ipfsUpload(data) {
         }
     };
     const metaDataResult = await data.fleek.upload( {
-        apiKey: process.env.REACT_APP_FLEEK_API_KEY,
-        apiSecret: process.env.REACT_APP_FLEEK_API_SECRET,
+        apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
+        apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
         key: data.metadataPath + uuid(),
         data: JSON.stringify(metaData),
       });
