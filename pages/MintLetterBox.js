@@ -67,64 +67,90 @@ function MintLetterBox() {
         let fields = state;
         let errors = {};
         let formIsValid = true;
-        if (!fields["name"]) {
-          formIsValid = false;
-          errors["name"] = "Name cannot be empty";
-        }
-
-        if (!fields["description"]) {
-            formIsValid = false;
-            errors["description"] = "Description cannot be empty";
-        }
-        if (!file["type"]) {
-            formIsValid = false;
-            errors["type"] = "File upload cannot be empty";
-        }
-        if (!fields["lattitude"]) {
-            formIsValid = false;
-            errors["type"] = "Latitude cannot be empty";
-        }
-        if (isNaN(fields["lattitude"]) === true) {
-            formIsValid = false;
-            errors["type"] = "Latitude must be a number";
-        }
-        if (!fields["longitude"]) {
-            formIsValid = false;
-            errors["type"] = "Longitude cannot be empty";
-        }
-        if (isNaN(fields["longitude"]) === true) {
-            formIsValid = false;
-            errors["type"] = "Longitude must be a number";
-        }
-        if (!fields["country"]) {
-            formIsValid = false;
-            errors["type"] = "Country cannot be empty";
-        }
-        if (!fields["zip"]) {
-            formIsValid = false;
-            errors["type"] = "Zip cannot be empty";
-        }
         let pattern = /^[0-9]{5}(?:-[0-9]{4})?$/;
-        if (!pattern.test(fields["zip"])) {
-            formIsValid = false;
-            errors["type"] = "Zip is not valid";
+        const validationList = [
+            {
+                condition: !fields["name"],
+                message: "Name cannot be empty",
+                field: "name"
+            },
+            {
+                condition: !fields["description"],
+                message: "Description cannot be empty",
+                field: "description"
+            },
+            {
+                condition: !file["type"],
+                message: "File upload cannot be empty",
+                field: "type"
+            },
+            {
+                condition: !fields["lattitude"],
+                message: "Latitude cannot be empty",
+                field: "lattitude"
+            },
+            {
+                condition: isNaN(fields["lattitude"]) === true,
+                message: "Latitude must be a number",
+                field: "lattitude"
+            },
+            {
+                condition: !fields["longitude"],
+                message: "Longitude cannot be empty",
+                field: "longitude"
+            },
+            {
+                condition: isNaN(fields["longitude"]) === true,
+                message: "Longitude must be a number",
+                field: "longitude"
+            },
+            {
+                condition: !fields["country"],
+                message: "Country cannot be empty",
+                field: "country"
+            },
+            {
+                condition: !fields["zip"],
+                message: "Zip cannot be empty",
+                field: "zip"
+            },
+            {
+                condition: !pattern.test(fields["zip"]),
+                message: "Zip is not valid",
+                field: "zip"
+            },
+            {
+                condition: !fields["city"],
+                message: "City cannot be empty",
+                field: "city"
+            },
+            {
+                condition: !fields["state"],
+                message: "State cannot be empty",
+                field: "state"
+            }
+        ];
+
+        for(let i = 0; i < validationList.length; i++) {
+            validateData(validationList[i].condition, validationList[i].message, validationList[i].field);
         }
-        if (!fields["city"]) {
-            formIsValid = false;
-            errors["type"] = "City cannot be empty";
-        }
-        if (!fields["state"]) {
-            formIsValid = false;
-            errors["type"] = "State cannot be empty";
-        }
+        
         setState({ 
             ...state, 
             errors: errors 
         });
+        
         return {
             validation: formIsValid,
             message: errors
         };
+
+        function validateData(condition, message, field) {
+            if(condition) {
+                formIsValid = false;
+                errors[field] = message;
+            }
+        }
     };
 
     function handleFileChange(event) {
