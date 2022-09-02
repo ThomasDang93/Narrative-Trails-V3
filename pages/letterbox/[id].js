@@ -16,6 +16,7 @@ const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 function Letterbox () {
   const [hasMetamask, setHasMetamask] = useState(false);
   const router = useRouter();
+  const { query } = useRouter();
   const id = router.query.id;
   const {
     active,
@@ -94,6 +95,9 @@ function Letterbox () {
         zip: letterboxList.zip,
         stampBoxList: stampList
     });
+    router.query.latitude = letterboxList.lattitude;
+    router.query.longitude = letterboxList.longitude;
+    router.push(router);
   };
 
   async function connect() {
@@ -131,6 +135,9 @@ function Letterbox () {
 
   return (
     <div>
+        {console.log("State: ", state)}
+        {console.log('Account Context: ', account)}
+        {console.log('Account Active: ', active)}
         {hasMetamask ? (
             active ? (
             <div className={styles.topright}>Connected</div>
@@ -162,13 +169,13 @@ function Letterbox () {
           <div>&nbsp;</div>
           {<b>Zip: </b>} {state.zip}
           <div>&nbsp;</div>
-          {<b>Lattitude: </b>} {state.lattitude}
+          {<b>Lattitude: </b>} {query.latitude}
           <div>&nbsp;</div>
-          {<b>Longitude: </b>} {state.longitude}
+          {<b>Longitude: </b>} {query.longitude}
           <div>&nbsp;</div>
           {<b>City: </b>} {state.city}
           <div>&nbsp;</div>
-          <Map state={state}/>
+          <Map state={state} query={query}/>
         </div>
       </div>
     </div>
