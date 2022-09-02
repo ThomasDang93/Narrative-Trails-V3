@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
-import styles from '../../styles/MintPage.module.css';
+import styles from '../../styles/Global.module.css';
 import LetterBoxingABI from "../../util/LetterBoxing.json";
 import StampList from "../../components/StampList";
 import * as  constants from '../../util/constants.js';
@@ -131,9 +131,6 @@ function Letterbox () {
 
   return (
     <div>
-        {console.log("State: ", state)}
-        {console.log('Account Context: ', account)}
-        {console.log('Account Active: ', active)}
         {hasMetamask ? (
             active ? (
             <div className={styles.topright}>Connected</div>
@@ -174,30 +171,6 @@ function Letterbox () {
           <Map state={state}/>
         </div>
       </div>
-      
-      {/* <div className={styles.center}>
-          
-            <h1>{state.name} {" #"}{id}</h1>
-            {<b>Description: </b>} {state.description}
-            <div>&nbsp;</div>
-            {<b>City: </b>} {state.city}
-            <div>&nbsp;</div>
-            {<b>State: </b>} {state.state}
-            <div>&nbsp;</div>
-            {<b>Country: </b>} {state.country}
-            <div>&nbsp;</div>
-            {<b>Zip: </b>} {state.zip}
-            <div>&nbsp;</div>
-            {<b>Lattitude: </b>} {state.lattitude}
-            <div>&nbsp;</div>
-            {<b>Longitude: </b>} {state.longitude}
-            <div>&nbsp;</div>
-            {<b>City: </b>} {state.city}
-            
-          
-        <div>&nbsp;</div>
-        <Map state={state}/>
-      </div>  */}
     </div>
   );
 };

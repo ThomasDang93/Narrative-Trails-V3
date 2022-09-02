@@ -1,4 +1,4 @@
-import styles from '../styles/MintPage.module.css';
+import styles from '../styles/Global.module.css';
 function StampList ({ stampList }) {
   return (
     <div className={styles.grid}>

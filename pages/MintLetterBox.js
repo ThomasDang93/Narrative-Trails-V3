@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
-import styles from '../styles/MintPage.module.css';
+import styles from '../styles/Global.module.css';
 import LetterBoxingABI from "../util/LetterBoxing.json";
 import fleek from '@fleekhq/fleek-storage-js';  
 import * as  constants from '../util/constants.js';

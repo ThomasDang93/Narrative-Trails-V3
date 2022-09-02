@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
-import styles from '../styles/MintPage.module.css';
+import styles from '../styles/Global.module.css';
 import LetterBoxingABI from "../util/LetterBoxing.json";
 import fleek from '@fleekhq/fleek-storage-js';  
 import * as  constants from '../util/constants.js';
 import UserStamp from '../components/UserStamp';
-import Map from '../components/Map';
 import { ipfsUpload, getUserStamp } from '../util/nft_operations.js';
 
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
@@ -144,11 +143,6 @@ function MintStamp() {
     
     return (
         <div>
-            {console.log('State Context: ', state)}
-            {console.log('File Context: ', file)}
-            {console.log('Account Context: ', account)}
-            {console.log('Account Active: ', active)}
-            
             {hasMetamask ? (
                 active ? (
                 <div className={styles.topright}>Connected</div>
@@ -158,7 +152,7 @@ function MintStamp() {
             ) : (
                 <div className={styles.topright}>Please Install Metamask</div>
             )}
-             {console.log('Stamp URL: ', state.stampList)}
+
             <form className="w-full max-w-lg" onSubmit={handleSubmit}>
                 <h1 className={styles.center}>Make Stamp</h1>
                 <div>&nbsp;</div>
