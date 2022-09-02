@@ -8,21 +8,15 @@ function Map ({ state, query }) {
           <div className="w-full px-3">
             {!query ?
                 state.lattitude === "" || state.longitude === "" || isNaN(state.lattitude) || isNaN(state.longitude) ?
-                navigator.geolocation.getCurrentPosition(position => {
-                    const {latitude, longitude} = position.coords;
-                    map.innerHTML = renderMap(longitude, latitude);
-                }) : 
-                navigator.geolocation.getCurrentPosition(position => {
-                    map.innerHTML = renderMap(state.longitude, state.lattitude);
-                })
+                    navigator.geolocation.getCurrentPosition(position => {
+                        const {latitude, longitude} = position.coords;
+                        map.innerHTML = renderMap(longitude, latitude);
+                    }) : 
+                    navigator.geolocation.getCurrentPosition(position => {
+                        map.innerHTML = renderMap(state.longitude, state.lattitude);
+                    })
                  :
-                query.latitude === "" || query.longitude === "" || isNaN(query.latitude) || isNaN(query.longitude) ?
                 navigator.geolocation.getCurrentPosition(position => {
-                    const {latitude, longitude} = position.coords;
-                    map.innerHTML = renderMap(longitude, latitude);
-                }) : 
-                navigator.geolocation.getCurrentPosition(position => {
-                    console.log("yo: " + query.longitude)
                     map.innerHTML = renderMap( query.longitude, query.latitude);
                 })
             } 
