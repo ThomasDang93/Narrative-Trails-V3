@@ -12,7 +12,6 @@ const Navbar = () => {
         <Link href='/MintStamp'><a>Make Stamp</a></Link>
         <Link href='/FindLetterbox'><a>Find Letterbox</a></Link>
         <Link href='/UsersCollection'><a>My Collection</a></Link>
-        {/* <Link href="/ninjas"><a>Ninjas</a></Link> */}
       </nav>
     );
   };

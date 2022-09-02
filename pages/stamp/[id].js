@@ -28,12 +28,6 @@ function Stamp () {
         name: "",
         description: "",
         src: "",
-        city: "",
-        country: "",
-        lattitude: "",
-        longitude: "",
-        state: "",
-        zip: "",
         letterBoxList: []
   });
 
@@ -63,14 +57,7 @@ function Stamp () {
             stampMetaData = {
                 name: data.name,
                 description: data.description,
-                src: data.media_uri_image,
-                city: data.properties.city,
-                country: data.properties.country,
-                lattitude: data.properties.lattitude,
-                longitude: data.properties.longitude,
-                state: data.properties.state,
-                zip: data.properties.zip
-
+                src: data.media_uri_image
         }});
 
         let letterBoxMeta = [];
@@ -89,15 +76,10 @@ function Stamp () {
         name: stampMetaData.name,
         description: stampMetaData.description,
         src: stampMetaData.src,
-        city: stampMetaData.city,
-        country: stampMetaData.country,
-        lattitude: stampMetaData.lattitude,
-        longitude: stampMetaData.longitude,
-        state: stampMetaData.state,
-        zip: stampMetaData.zip,
         letterBoxList: letterBoxMeta
     });
   };
+  
   async function connect() {
     if (typeof window.ethereum !== "undefined") {
       try {
@@ -132,22 +114,6 @@ function Stamp () {
             <h1>{<b>Name: </b>} {state.name} {" #"}{id}</h1>
             <div>&nbsp;</div>
             {<b>Description: </b>} {state.description}
-            <div>&nbsp;</div>
-            {<b>City: </b>} {state.city}
-            <div>&nbsp;</div>
-            {<b>State: </b>} {state.state}
-            <div>&nbsp;</div>
-            {<b>Country: </b>} {state.country}
-            <div>&nbsp;</div>
-            {<b>Zip: </b>} {state.zip}
-            <div>&nbsp;</div>
-            {<b>Lattitude: </b>} {state.lattitude}
-            <div>&nbsp;</div>
-            {<b>Longitude: </b>} {state.longitude}
-            <div>&nbsp;</div>
-            {<b>City: </b>} {state.city}
-            <div>&nbsp;</div>
-            <Map state={state}/>
           </div>
         </div>
     </div>
