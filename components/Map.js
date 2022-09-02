@@ -7,7 +7,7 @@ function Map ({ state, query }) {
       <div id="map" className="flex flex-wrap -mx-3 mb-6">
           <div className="w-full px-3">
             {!query ?
-                state.lattitude === "" || state.longitude === "" || Number.isNaN(state.lattitude) || Number.isNaN(state.longitude) ?
+                state.lattitude === "" || state.longitude === "" || isNaN(state.lattitude) || isNaN(state.longitude) ?
                 navigator.geolocation.getCurrentPosition(position => {
                     const {latitude, longitude} = position.coords;
                     map.innerHTML = renderMap(longitude, latitude);
@@ -16,12 +16,13 @@ function Map ({ state, query }) {
                     map.innerHTML = renderMap(state.longitude, state.lattitude);
                 })
                  :
-                query.lattitude === "" || query.longitude === "" || Number.isNaN(query.lattitude) || Number.isNaN(query.longitude) ?
+                query.latitude === "" || query.longitude === "" || isNaN(query.latitude) || isNaN(query.longitude) ?
                 navigator.geolocation.getCurrentPosition(position => {
                     const {latitude, longitude} = position.coords;
                     map.innerHTML = renderMap(longitude, latitude);
                 }) : 
                 navigator.geolocation.getCurrentPosition(position => {
+                    console.log("yo: " + query.longitude)
                     map.innerHTML = renderMap( query.longitude, query.latitude);
                 })
             } 
