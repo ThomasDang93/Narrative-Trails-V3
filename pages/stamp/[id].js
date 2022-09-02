@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
-import styles from '../../styles/MintPage.module.css';
+import styles from '../../styles/Global.module.css';
 import LetterBoxingABI from "../../util/LetterBoxing.json";
 import * as  constants from '../../util/constants.js';
 import StampResources from '../../components/StampResources.js';
@@ -76,7 +76,6 @@ function Stamp () {
         let letterBoxMeta = [];
         for(let i = 1; i < userResources.length; i++) {
           let resourceURI = userResources[i].metadataURI;
-          console.log("resource URI: ", resourceURI);
           await fetch(resourceURI)
               .then(response => response.json())
               .then(data => {
@@ -112,10 +111,6 @@ function Stamp () {
 
   return (
     <div>
-        {console.log("State: ", state)}
-        {console.log('Account Context: ', account)}
-        {console.log('Account Active: ', active)}
-        {console.log('ID: ', id)}
         {hasMetamask ? (
             active ? (
                 <div className={styles.topright}>Connected</div>

@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import LetterBoxList from '../components/LetterBoxList';
-import styles from '../styles/MintPage.module.css';
+import styles from '../styles/Global.module.css';
 import LetterBoxingABI from "../util/LetterBoxing.json";
 import * as  constants from '../util/constants.js';
 
@@ -45,13 +45,11 @@ function FindLetterbox() {
         let allLetterboxes = await contract.letterboxList(); 
         let letterBoxList = [];
         for (let i = 0; i < allLetterboxes.length; i++) {
-            console.log("letterbox ID: ", allLetterboxes[i].toNumber());
             let iboxResources = await contract.getFullResources(
                 allLetterboxes[i].toNumber()
             );
 
             let iboxURI = iboxResources[0].metadataURI;
-            console.log("iboxURI = ", iboxURI);
             //fetch on the above url to actually retrieve json as json
             await fetch(iboxURI)
                 .then(response => response.json())
@@ -84,12 +82,6 @@ function FindLetterbox() {
       
     return (
         <div >
-            {console.log('State Context: ', state)}
-            {console.log('Account Context: ', account)}
-            {console.log('Account Active: ', active)}
-            {console.log('State Context: ', state)}
-            {console.log('Account Context: ', account)}
-            {console.log('Account Active: ', active)}
             {hasMetamask ? (
                 active ? (
                 <div className={styles.topright}>Connected</div>
