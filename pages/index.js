@@ -4,6 +4,7 @@ import styles from '../styles/Home.module.css';
 //import logo from '../public/favicon.ico';
 
 export default function Home() {
+  const hStyle = { color: 'red' };
   return (
     <div className={styles.container}>
       <Head>
