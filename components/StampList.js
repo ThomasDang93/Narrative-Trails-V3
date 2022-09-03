@@ -1,5 +1,5 @@
 import styles from '../styles/Global.module.css';
-function StampList ({ stampList }) {
+const StampList = ({ stampList }) => {
   return (
     <div className={styles.grid}>
         {stampList.stampBoxList.length > 0 ? 

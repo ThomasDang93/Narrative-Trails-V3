@@ -1,4 +1,4 @@
-function Map ({ state, query }) {
+const Map = ({ state, query }) => {
     const renderMap = (longitude, latitude) => {
         return '<iframe width="500" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox='
         + parseFloat(longitude) + '%2C' + parseFloat(latitude) + '&amp;layer=mapnik" style="border: 1px solid black"></iframe>';

@@ -13,7 +13,7 @@ export const injected = new InjectedConnector();
 
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 
-function Letterbox () {
+const Letterbox = () => {
   const [hasMetamask, setHasMetamask] = useState(false);
   const router = useRouter();
   const { query } = useRouter();
@@ -24,7 +24,7 @@ function Letterbox () {
     account,
     library: provider,
   } = useWeb3React();
-  const [state, setState] = useState(    {
+  const [state, setState] = useState({
         name: "",
         description: "",
         src: "",
@@ -49,9 +49,9 @@ function Letterbox () {
     }
   });
 
-  async function getLetterBox() {
+  const getLetterBox = async () => {
     const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
-    let iboxURI = await contract.letterboxMetadataURI(id);
+    const iboxURI = await contract.letterboxMetadataURI(id);
     console.log("iboxURI = ", iboxURI)
     let letterboxList;
     await fetch(iboxURI)
@@ -69,18 +69,18 @@ function Letterbox () {
                 zip: data.properties.zip
         }});
 
-    let resources = await contract.getFullResources(id);
+    const resources = await contract.getFullResources(id);
     let stampList = [];
     for(let i = 1; i < resources.length; i++) {
-        let resourceURI = resources[i].metadataURI;
-        console.log("JSON URI: ", resourceURI);
-        await fetch(resourceURI)
-            .then(response => response.json())
-            .then(data => {
-                    stampList.push({
-                      src: data.media_uri_image
-                    });
-                });
+      const resourceURI = resources[i].metadataURI;
+      console.log("JSON URI: ", resourceURI);
+      await fetch(resourceURI)
+          .then(response => response.json())
+          .then(data => {
+                  stampList.push({
+                    src: data.media_uri_image
+                  });
+          });
     }
     setState({
         ...state,
@@ -100,7 +100,7 @@ function Letterbox () {
     router.push(router);
   };
 
-  async function connect() {
+  const connect = async () => {
     if (typeof window.ethereum !== "undefined") {
       try {
         await activate(injected);
@@ -109,11 +109,11 @@ function Letterbox () {
         console.log(e);
       }
     }
-  };
+  }
 
-  async function foundLetterbox() {
+  const foundLetterbox = async () => {
     if (active) {
-      console.log(provider.getSigner())
+      console.log("Signer: ", provider.getSigner());
       const signer = provider.getSigner();
       const contractAddress = DEPLOYED_CONTRACT_ADDRESS;
       const contract = new ethers.Contract(contractAddress, LetterBoxingABI["abi"], signer);
@@ -135,9 +135,6 @@ function Letterbox () {
 
   return (
     <div>
-        {console.log("State: ", state)}
-        {console.log('Account Context: ', account)}
-        {console.log('Account Active: ', active)}
         {hasMetamask ? (
             active ? (
             <div className={styles.topright}>Connected</div>
@@ -182,4 +179,4 @@ function Letterbox () {
   );
 };
  
-export default Letterbox
+export default Letterbox;

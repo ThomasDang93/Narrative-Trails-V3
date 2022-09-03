@@ -13,7 +13,7 @@ const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 
 export const injected = new InjectedConnector();
 
-function MintLetterBox() {
+const MintLetterBox = () => {
     const [hasMetamask, setHasMetamask] = useState(false);
     const {
         active,
@@ -36,13 +36,19 @@ function MintLetterBox() {
     });
     const [file, setFile] = useState({});
 
-    const handleSubmit = async(event) => {
+    useEffect(() => {
+        if (typeof window.ethereum !== "undefined") {
+            setHasMetamask(true);
+        }
+    });
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const form = handleValidation();
         if(form.validation) {
             const confirmation = confirm("Are you sure you want to mint?");
             if(confirmation) {
-                let metaDataResult = await ipfsUpload({
+                const metaDataResult = await ipfsUpload({
                     fleek: fleek,
                     file: file,
                     imagePath: constants.LETTERBOX_IMAGE_PATH,
@@ -63,11 +69,11 @@ function MintLetterBox() {
         }
     };
 
-    function handleValidation() {
-        let fields = state;
+    const handleValidation = () => {
         let errors = {};
         let formIsValid = true;
-        let pattern = /^[0-9]{5}(?:-[0-9]{4})?$/;
+        const fields = state;
+        const pattern = /^[0-9]{5}(?:-[0-9]{4})?$/;
         const validationList = [
             {
                 condition: !fields["name"],
@@ -153,18 +159,19 @@ function MintLetterBox() {
         }
     };
 
-    function handleFileChange(event) {
+    const handleFileChange = (event) => {
         setFile(event.target.files[0]);
     };
 
-    function handleChange(event) {
+    const handleChange = (event) => {
         let change = {
             ...state
         };
         change[event.target.name] = event.target.value;
         setState(change);
     };
-    async function connect() {
+
+    const connect = async () => {
         if (typeof window.ethereum !== "undefined") {
           try {
             await activate(injected);
@@ -175,17 +182,8 @@ function MintLetterBox() {
         }
     };
 
-    useEffect(() => {
-        if (typeof window.ethereum !== "undefined") {
-            setHasMetamask(true);
-        }
-    });
-    
     return (
-        <div>
-            {console.log('State Context: ', state)}
-            {console.log('File Context: ', file)}
-            
+        <div>  
             {hasMetamask ? (
                 active ? (
                 <div className={styles.topright}>Connected</div>

@@ -12,7 +12,7 @@ const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 
 export const injected = new InjectedConnector();
 
-function UsersCollection() {
+const UsersCollection = () => {
     const [hasMetamask, setHasMetamask] = useState(false);
     const {
         active,
@@ -23,8 +23,20 @@ function UsersCollection() {
     const [state, setState] = useState({
         stampList: []
     });
+
+    useEffect(() => {
+      if (typeof window.ethereum !== "undefined") {
+        setHasMetamask(true);
+      }
+    });
+
+    useEffect(() => {
+      if(active) {
+          getNFTs();
+      }
+    },[active]);
     
-    async function connect() {
+    const connect = async () => {
         if (typeof window.ethereum !== "undefined") {
           try {
             await activate(injected);
@@ -35,9 +47,9 @@ function UsersCollection() {
         }
       };
 
-    async function getNFTs() {
+    const getNFTs = async () => {
         const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
-        let stampList = await getUserStamp({
+        const stampList = await getUserStamp({
             account: account,
             contract: contract
         });
@@ -46,18 +58,6 @@ function UsersCollection() {
             stampList: stampList
         });
     };
-
-      useEffect(() => {
-        if (typeof window.ethereum !== "undefined") {
-          setHasMetamask(true);
-        }
-      });
-
-      useEffect(() => {
-        if(active) {
-            getNFTs();
-        }
-      },[active]);
       
     return (
         <div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { injected } from '../util/connectors.js';
 import { useWeb3React } from '@web3-react/core';
 
-function WalletProvider({ children }) {
+const WalletProvider = ({ children }) => {
   const { active: networkActive, error: networkError, activate: activateNetwork } = useWeb3React();
   const [loaded, setLoaded] = useState(false);
 
