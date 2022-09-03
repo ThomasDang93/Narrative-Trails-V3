@@ -13,7 +13,7 @@ const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 
 export const injected = new InjectedConnector();
 
-function MintStamp() {
+const MintStamp = () => {
     const [hasMetamask, setHasMetamask] = useState(false);
     const {
         active,
@@ -38,13 +38,25 @@ function MintStamp() {
     });
     const [file, setFile] = useState({});
 
-    const handleSubmit = async(event) => {
+    useEffect(() => {
+        if (typeof window.ethereum !== "undefined") {
+            setHasMetamask(true);
+        }
+    });
+
+    useEffect(() => {
+        if(active) {
+            getNFTs();
+        }
+    },[active]);
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const form = handleValidation();
         if(form.validation) {
             const confirmation = confirm("Are you sure you want to mint?");
             if(confirmation) {
-                let metaDataResult = await ipfsUpload({
+                const metaDataResult = await ipfsUpload({
                     fleek: fleek,
                     file: file,
                     imagePath: constants.STAMP_IMAGE_PATH,
@@ -66,8 +78,8 @@ function MintStamp() {
         }
     };
 
-    function handleValidation() {
-        let fields = state;
+    const handleValidation = () => {
+        const fields = state;
         let errors = {};
         let formIsValid = true;
     
@@ -75,7 +87,6 @@ function MintStamp() {
           formIsValid = false;
           errors["name"] = "Name cannot be empty";
         }
-
         if (!fields["description"]) {
             formIsValid = false;
             errors["description"] = "Description cannot be empty";
@@ -94,11 +105,11 @@ function MintStamp() {
         }
     };
 
-    function handleFileChange(event) {
+    const handleFileChange = (event) => {
         setFile(event.target.files[0]);
     };
 
-    function handleChange(event) {
+    const handleChange = (event) => {
         let change = {
             ...state
         };
@@ -106,7 +117,7 @@ function MintStamp() {
         setState(change);
     };
 
-    async function connect() {
+    const connect = async () => {
         if (typeof window.ethereum !== "undefined") {
           try {
             await activate(injected);
@@ -117,9 +128,9 @@ function MintStamp() {
         }
     };
 
-    async function getNFTs() {
+    const getNFTs = async () => {
         const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
-        let stampList = await getUserStamp({
+        const stampList = await getUserStamp({
             account: account,
             contract: contract
         });
@@ -129,18 +140,6 @@ function MintStamp() {
         });
     };
 
-    useEffect(() => {
-        if (typeof window.ethereum !== "undefined") {
-            setHasMetamask(true);
-        }
-    });
-
-    useEffect(() => {
-        if(active) {
-            getNFTs();
-        }
-    },[active]);
-    
     return (
         <div>
             {hasMetamask ? (
@@ -193,4 +192,5 @@ function MintStamp() {
         </div>
     );
 }
+
 export default MintStamp;

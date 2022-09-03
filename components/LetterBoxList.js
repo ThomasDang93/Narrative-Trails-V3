@@ -1,6 +1,6 @@
 import styles from '../styles/Global.module.css';
 import Link from 'next/link';
-function LetterBoxList ({ letterbox }) {
+const LetterBoxList = ({ letterbox }) => {
   return (
     <div className={styles.grid}>
         {letterbox.letterBoxList.length > 0 ? 

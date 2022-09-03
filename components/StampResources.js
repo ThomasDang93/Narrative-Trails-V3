@@ -1,5 +1,5 @@
 import styles from '../styles/Global.module.css';
-function StampResources ({ letterbox }) {
+const StampResources = ({ letterbox }) => {
   return (
     <div className={styles.grid}>
         {letterbox.letterBoxList.length > 0 ? 
@@ -11,7 +11,6 @@ function StampResources ({ letterbox }) {
             );
         })
         : ""}
-
     </div>
   );
 };

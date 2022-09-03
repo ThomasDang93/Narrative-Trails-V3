@@ -11,7 +11,7 @@ const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 
 export const injected = new InjectedConnector();
 
-function FindLetterbox() {
+const FindLetterbox = () => {
     const [hasMetamask, setHasMetamask] = useState(false);
     const {
         active,
@@ -19,16 +19,23 @@ function FindLetterbox() {
         account,
         library: provider,
       } = useWeb3React();
-    const [state, setState] = useState(    {
+    const [state, setState] = useState({
         letterBoxList: []
     });
+
     useEffect(() => {
-    if(active) {
-        getNFTs();
-    }
+        if(active) {
+            getNFTs();
+        }
     },[active]);
 
-    async function connect() {
+    useEffect(() => {
+        if (typeof window.ethereum !== "undefined") {
+            setHasMetamask(true);
+        }
+    });
+
+    const connect = async () => {
         if (typeof window.ethereum !== "undefined") {
           try {
             await activate(injected);
@@ -39,18 +46,15 @@ function FindLetterbox() {
         }
     };
 
-    async function getNFTs() {
+    const getNFTs = async () => {
         const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
-        //get letterboxes
         let allLetterboxes = await contract.letterboxList(); 
         let letterBoxList = [];
         for (let i = 0; i < allLetterboxes.length; i++) {
-            let iboxResources = await contract.getFullResources(
+            const iboxResources = await contract.getFullResources(
                 allLetterboxes[i].toNumber()
             );
-
-            let iboxURI = iboxResources[0].metadataURI;
-            //fetch on the above url to actually retrieve json as json
+            const iboxURI = iboxResources[0].metadataURI;
             await fetch(iboxURI)
                 .then(response => response.json())
                 .then(data => {
@@ -72,14 +76,8 @@ function FindLetterbox() {
             ...state,
             letterBoxList: letterBoxList
         });
-      };
+    };
 
-    useEffect(() => {
-        if (typeof window.ethereum !== "undefined") {
-            setHasMetamask(true);
-        }
-    });
-      
     return (
         <div >
             {hasMetamask ? (
@@ -100,8 +98,8 @@ function FindLetterbox() {
                 </div> 
                 : <h1 className={styles.center}>Connect Wallet</h1>
             }
-           
         </div>
     );
 };
+
 export default FindLetterbox;

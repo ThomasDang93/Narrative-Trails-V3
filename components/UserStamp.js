@@ -1,5 +1,5 @@
 import Link from 'next/link';
-function UserStamp ({ stamp }) {
+const UserStamp = ({ stamp }) => {
   return (
     <div>
         {stamp.stampList.length > 0 ? 

@@ -8,13 +8,12 @@ import LetterBoxingABI from "../../util/LetterBoxing.json";
 import * as  constants from '../../util/constants.js';
 import StampResources from '../../components/StampResources.js';
 import { useRouter } from 'next/router';
-import Map from '../../components/Map';
 
 export const injected = new InjectedConnector();
 
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 
-function Stamp () {
+const Stamp = () => {
   const [hasMetamask, setHasMetamask] = useState(false);
   const router = useRouter();
   const id = router.query.id;
@@ -24,7 +23,7 @@ function Stamp () {
     account,
     library: provider,
   } = useWeb3React();
-  const [state, setState] = useState(    {
+  const [state, setState] = useState({
         name: "",
         description: "",
         src: "",
@@ -35,7 +34,6 @@ function Stamp () {
     if(active) {
       getStamp();
     }
-    
   },[active]);
 
   useEffect(() => {
@@ -44,12 +42,12 @@ function Stamp () {
     }
   });
 
-  async function getStamp() {
+  const getStamp = async () => {
     const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
     let userStamp = await contract.stampHeldBy(account); //returns tokenId
     userStamp = userStamp.toNumber();
-    let userResources = await contract.getFullResources(userStamp); //returns array of resources
-    let userJSON = userResources[0].metadataURI;
+    const userResources = await contract.getFullResources(userStamp); //returns array of resources
+    const userJSON = userResources[0].metadataURI;
     let stampMetaData;
     await fetch(userJSON)
         .then(response => response.json())
@@ -62,14 +60,14 @@ function Stamp () {
 
         let letterBoxMeta = [];
         for(let i = 1; i < userResources.length; i++) {
-          let resourceURI = userResources[i].metadataURI;
+          const resourceURI = userResources[i].metadataURI;
           await fetch(resourceURI)
               .then(response => response.json())
               .then(data => {
                       letterBoxMeta.push({
                         src: data.media_uri_image
                       });
-                  });
+              });
         }
     setState({
         ...state,
@@ -80,7 +78,7 @@ function Stamp () {
     });
   };
   
-  async function connect() {
+  const connect = async () => {
     if (typeof window.ethereum !== "undefined") {
       try {
         await activate(injected);
