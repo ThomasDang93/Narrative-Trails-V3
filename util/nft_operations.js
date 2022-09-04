@@ -1,4 +1,4 @@
-export async function ipfsUpload(data) {
+export const ipfsUpload = async (data) => {
   try {
     const formData = new FormData();
     formData.append('File', data.file);
@@ -38,7 +38,7 @@ export async function ipfsUpload(data) {
     
 };
 
-export async function getUserStamp(data) {
+export const getUserStamp = async (data) => {
   
   let userStamp = await data.contract.stampHeldBy(data.account); //returns tokenId
   userStamp = userStamp.toNumber();
@@ -68,7 +68,7 @@ export async function getUserStamp(data) {
   return stampList;
 };
 
-function uuid() {
+export const uuid = () => {
   var temp_url = URL.createObjectURL(new Blob());
   var uuid = temp_url.toString();
   URL.revokeObjectURL(temp_url);
