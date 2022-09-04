@@ -1,7 +1,7 @@
 const Map = ({ state, query }) => {
     const renderMap = (longitude, latitude) => {
         return '<iframe width="500" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox='
-        + parseFloat(longitude) + '%2C' + parseFloat(latitude) + '&amp;layer=mapnik" style="border: 1px solid black"></iframe>';
+        + parseFloat(longitude) + '%2C' + parseFloat(latitude) + '&amp;layer=mapnik&amp;marker=' + parseFloat(latitude) + '%2C' + parseFloat(longitude) + '" style="border: 1px solid black"></iframe>';
     }
     return (
       <div id="map" className="flex flex-wrap -mx-3 mb-6">
@@ -35,3 +35,4 @@ const Map = ({ state, query }) => {
 //     map.innerHTML = '<iframe width="700" height="300" src="https://maps.google.com/maps?q=' 
 //     + latitude + ',' + longitude + '&amp;z=15&amp;output=embed"></iframe>';
 // })
+
