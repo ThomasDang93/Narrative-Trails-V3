@@ -12,41 +12,18 @@ const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 export const injected = new InjectedConnector();
 
 const FindLetterbox = () => {
-    const [hasMetamask, setHasMetamask] = useState(false);
-    const {
-        active,
-        activate,
-        account,
-        library: provider,
-      } = useWeb3React();
+    const { active, library: provider } = useWeb3React();
     const [state, setState] = useState({
         letterBoxList: []
     });
 
     useEffect(() => {
         if(active) {
-            getNFTs();
+            getLetterboxes();
         }
     },[active]);
 
-    useEffect(() => {
-        if (typeof window.ethereum !== "undefined") {
-            setHasMetamask(true);
-        }
-    });
-
-    const connect = async () => {
-        if (typeof window.ethereum !== "undefined") {
-          try {
-            await activate(injected);
-            setHasMetamask(true);
-          } catch (e) {
-            console.log(e);
-          }
-        }
-    };
-
-    const getNFTs = async () => {
+    const getLetterboxes = async () => {
         const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
         let allLetterboxes = await contract.letterboxList(); 
         let letterBoxList = [];
@@ -80,15 +57,6 @@ const FindLetterbox = () => {
 
     return (
         <div >
-            {hasMetamask ? (
-                active ? (
-                <div className={styles.topright}>Connected</div>
-                ) : (
-                    <button className={styles.topright} onClick={() => connect()}>Connect</button>
-                )
-            ) : (
-                <div className={styles.topright}>Please Install Metamask</div>
-            )}
             {
                 active ? 
                 <div>
