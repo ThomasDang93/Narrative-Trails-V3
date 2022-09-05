@@ -14,10 +14,8 @@ const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 export const injected = new InjectedConnector();
 
 const MintStamp = () => {
-    const [hasMetamask, setHasMetamask] = useState(false);
     const {
         active,
-        activate,
         account,
         library: provider,
       } = useWeb3React();
@@ -39,14 +37,8 @@ const MintStamp = () => {
     const [file, setFile] = useState({});
 
     useEffect(() => {
-        if (typeof window.ethereum !== "undefined") {
-            setHasMetamask(true);
-        }
-    });
-
-    useEffect(() => {
         if(active) {
-            getNFTs();
+            getStamp();
         }
     },[active]);
 
@@ -117,18 +109,7 @@ const MintStamp = () => {
         setState(change);
     };
 
-    const connect = async () => {
-        if (typeof window.ethereum !== "undefined") {
-          try {
-            await activate(injected);
-            setHasMetamask(true);
-          } catch (e) {
-            console.log(e);
-          }
-        }
-    };
-
-    const getNFTs = async () => {
+    const getStamp = async () => {
         const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
         const stampList = await getUserStamp({
             account: account,
@@ -142,16 +123,6 @@ const MintStamp = () => {
 
     return (
         <div>
-            {hasMetamask ? (
-                active ? (
-                <div className={styles.topright}>Connected</div>
-                ) : (
-                    <button className={styles.topright} onClick={() => connect()}>Connect</button>
-                )
-            ) : (
-                <div className={styles.topright}>Please Install Metamask</div>
-            )}
-
             <form className="w-full max-w-lg" onSubmit={handleSubmit}>
                 <h1 className={styles.center}>Make Stamp</h1>
                 <div>&nbsp;</div>
@@ -180,7 +151,7 @@ const MintStamp = () => {
                     </div>
                     {
                         active ?
-                            <div className="flex flex-wrap -mx-3 mb-2">
+                            <div>
                                 <button type="submit"className={styles.submitbtn}>Mint</button>
                                 <h1 className={styles.center}>Your Current Stamp</h1>
                                 <UserStamp stamp={state}/>

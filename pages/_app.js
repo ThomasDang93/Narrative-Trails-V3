@@ -6,13 +6,13 @@ import '../styles/globals.css';
 
 const MyApp = ({ Component, pageProps }) => {
   return (
-    <Layout>
       <Web3ReactProvider getLibrary={getLibrary}>
         <WalletProvider>
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </WalletProvider>
       </Web3ReactProvider>
-    </Layout>
   );
 };
 

@@ -1,44 +1,55 @@
-.topright {
-    line-height: 24px;
-    width: 56px;
-    font-size: 8pt;
-    font-family: tahoma;
-    margin-top: 20px;
-    margin-right: 40px;
-    position:absolute;
-    top:0;
-    right:0;
-    border: 1px solid #000000;
-    padding: 2px
-  }
+.connectbtn {
+  margin-left: 18px;
+  width: 110px;
+  padding: 1px 0;
+  background: #6c9d99;
+  border-radius: 18px;
+  color: white;
+  text-align: center;
+}
+
+.mobileconnect {
+  margin-left: 12px;
+  width: 110px;
+  padding: 1px 0;
+  background: #6c9d99;
+  border-radius: 18px;
+  color: white;
+  text-align: center;
+}
+
+.staticposition {
+  position: absolute
+}
   
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 20px;
-  }
-  
-  .grid img {
-    width: 100%;
-  }
-  
-  .container {
-    columns: 2 auto;
-  }
-  .submitbtn {
-    display: block;
-    width: 150px;
-    padding: 8px 0;
-    margin: 20px auto;
-    background: #05a810;
-    border-radius: 4px;
-    color: white;
-    text-align: center;
-  }
-  
-  .center {
-    text-align: center;
-    max-width: 500px;
-    margin: auto;
-    padding: 10px;
-  }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
+
+.grid img {
+  width: 100%;
+}
+
+.container {
+  columns: 2 auto;
+}
+
+.submitbtn {
+  display: block;
+  width: 150px;
+  padding: 8px 0;
+  margin: 20px auto;
+  background: #355176;
+  border-radius: 4px;
+  color: white;
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+  max-width: 500px;
+  margin: auto;
+  padding: 10px;
+}

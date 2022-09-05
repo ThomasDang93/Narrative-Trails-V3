@@ -14,11 +14,8 @@ const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 export const injected = new InjectedConnector();
 
 const MintLetterBox = () => {
-    const [hasMetamask, setHasMetamask] = useState(false);
     const {
         active,
-        activate,
-        chainId,
         account,
         library: provider,
       } = useWeb3React();
@@ -35,12 +32,6 @@ const MintLetterBox = () => {
         selectedAddress: "",
     });
     const [file, setFile] = useState({});
-
-    useEffect(() => {
-        if (typeof window.ethereum !== "undefined") {
-            setHasMetamask(true);
-        }
-    });
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -170,29 +161,8 @@ const MintLetterBox = () => {
         change[event.target.name] = event.target.value;
         setState(change);
     };
-
-    const connect = async () => {
-        if (typeof window.ethereum !== "undefined") {
-          try {
-            await activate(injected);
-            setHasMetamask(true);
-          } catch (e) {
-            console.log(e);
-          }
-        }
-    };
-
     return (
         <div>  
-            {hasMetamask ? (
-                active ? (
-                <div className={styles.topright}>Connected</div>
-                ) : (
-                    <button className={styles.topright} onClick={() => connect()}>Connect</button>
-                )
-            ) : (
-                <div className={styles.topright}>Please Install Metamask</div>
-            )}
             <form className="w-full max-w-lg" onSubmit={handleSubmit}>
                 <h1 className={styles.center}>Plant Letterbox</h1>
                 <div>&nbsp;</div>

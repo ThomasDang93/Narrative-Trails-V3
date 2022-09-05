@@ -14,13 +14,11 @@ export const injected = new InjectedConnector();
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 
 const Letterbox = () => {
-  const [hasMetamask, setHasMetamask] = useState(false);
   const router = useRouter();
   const { query } = useRouter();
   const id = router.query.id;
   const {
     active,
-    activate,
     account,
     library: provider,
   } = useWeb3React();
@@ -42,12 +40,6 @@ const Letterbox = () => {
       getLetterBox();
     }
   },[active]);
-
-  useEffect(() => {
-    if (typeof window.ethereum !== "undefined") {
-      setHasMetamask(true);
-    }
-  });
 
   const getLetterBox = async () => {
     const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
@@ -100,17 +92,6 @@ const Letterbox = () => {
     router.push(router);
   };
 
-  const connect = async () => {
-    if (typeof window.ethereum !== "undefined") {
-      try {
-        await activate(injected);
-        setHasMetamask(true);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  }
-
   const foundLetterbox = async () => {
     if (active) {
       console.log("Signer: ", provider.getSigner());
@@ -135,17 +116,8 @@ const Letterbox = () => {
 
   return (
     <div>
-        {hasMetamask ? (
-            active ? (
-            <div className={styles.topright}>Connected</div>
-            ) : (
-                <button className={styles.topright} onClick={() => connect()}>Connect</button>
-            )
-        ) : (
-            <div className={styles.topright}>Please Install Metamask</div>
-        )}
-      <div className="flex mb-4">
-        <div className="w-full md:w-1/2 px-5">
+      <div className="flex mb-4 grid grid-cols-1 gap-5 md:grid-cols-2">
+        <div className="w-full px-5">
           <img src={state.src} alt="Image cap" top width="100%"></img>
           <div>&nbsp;</div>
           <button className={styles.submitbtn} onClick={() => foundLetterbox()}>I found it!</button> 
@@ -153,7 +125,7 @@ const Letterbox = () => {
           <h2>Resources</h2>
           <StampList stampList={state}/>
         </div>
-        <div className="w-full md:w-1/2 px-5">
+        <div className="w-full px-5">
           <h1>{<b>Name: </b>} {state.name} {" #"}{id}</h1>
           <div>&nbsp;</div>
           {<b>Description: </b>} {state.description}

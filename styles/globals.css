@@ -17,18 +17,18 @@ a {
   margin: 0 auto;
 }
 nav {
-  margin: 10px auto 80px;
+  margin: 10px auto 60px;
   padding: 10px 0;
-  display: flex;
   justify-content: flex-end;
   align-items: flex-end;
   border-bottom: 1px solid #ddd;
 }
+
 nav a {
-  margin-left: 12px;
+  margin-left: 20px;
 }
 nav .logo {
-  margin-right: auto;
+  margin-right: 40px;
 }
 footer {
   display: block;
@@ -55,4 +55,8 @@ li {
 }
 .hover {
   cursor: pointer;
+}
+
+.displayflex {
+  display: flex
 }

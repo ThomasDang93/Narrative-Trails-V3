@@ -13,10 +13,8 @@ const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 export const injected = new InjectedConnector();
 
 const UsersCollection = () => {
-    const [hasMetamask, setHasMetamask] = useState(false);
     const {
         active,
-        activate,
         account,
         library: provider,
       } = useWeb3React();
@@ -25,29 +23,12 @@ const UsersCollection = () => {
     });
 
     useEffect(() => {
-      if (typeof window.ethereum !== "undefined") {
-        setHasMetamask(true);
-      }
-    });
-
-    useEffect(() => {
       if(active) {
-          getNFTs();
+        getStamp();
       }
     },[active]);
-    
-    const connect = async () => {
-        if (typeof window.ethereum !== "undefined") {
-          try {
-            await activate(injected);
-            setHasMetamask(true);
-          } catch (e) {
-            console.log(e);
-          }
-        }
-      };
 
-    const getNFTs = async () => {
+    const getStamp = async () => {
         const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
         const stampList = await getUserStamp({
             account: account,
@@ -61,15 +42,6 @@ const UsersCollection = () => {
       
     return (
         <div>
-            {hasMetamask ? (
-                active ? (
-                <div className={styles.topright}>Connected</div>
-                ) : (
-                    <button className={styles.topright} onClick={() => connect()}>Connect</button>
-                )
-            ) : (
-                <div className={styles.topright}>Please Install Metamask</div>
-            )}
             {active ? 
             <div className={styles.center}>
                 <div>&nbsp;</div>
@@ -79,4 +51,5 @@ const UsersCollection = () => {
         </div>
     );
 };
-export default UsersCollection
+
+export default UsersCollection;
