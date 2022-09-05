@@ -64,7 +64,5 @@ export const injected = new InjectedConnector();
       </nav>
     );
   };
-
-  //${navbar === false ? "hidden" : ""} 
    
   export default Navbar;
