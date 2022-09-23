@@ -8,6 +8,7 @@ import fleek from '@fleekhq/fleek-storage-js';
 import * as  constants from '../util/constants.js';
 import UserStamp from '../components/UserStamp';
 import { ipfsUpload, getUserStamp } from '../util/nft_operations.js';
+import GettingStarted from '../components/GettingStarted';
 
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 
@@ -122,11 +123,13 @@ const MintStamp = () => {
     };
 
     return (
-        <div>
-            <form className="w-full max-w-lg" onSubmit={handleSubmit}>
-                <h1 className={styles.center}>Make Stamp</h1>
+        <div className="min-h-[calc(100vh_-_80px_-_40px)]">
+            <GettingStarted />
+            <div className='flex flex-col h-screen justify-center items-center'>
+            <form className="w-full max-w-lg -mt-20 bg-white shadow-lg rounded-xl" onSubmit={handleSubmit}>
+                <h1 className="text-4xl mt-14 text-center">Mint NFT Stamp</h1>
                 <div>&nbsp;</div>
-                <div className={styles.center}>
+                <div className="p-10 ">
                     <div className="flex flex-wrap -mx-3 mb-6 ">
                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="name">
@@ -138,7 +141,8 @@ const MintStamp = () => {
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="upload">
                             Upload
                             </label>
-                            <input className="appearance-none text-gray-700 py-3 px-4 " id="upload" name="upload"type="file" onChange={handleFileChange}/>
+                            <input className="appearance-none text-gray-700 py-3 px-4                            
+                            " id="upload" name="upload"type="file" onChange={handleFileChange}/>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
@@ -149,17 +153,20 @@ const MintStamp = () => {
                             <textarea className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" rows="4" id="description" name="description" type="textarea" placeholder="Enter instructions here" onChange={handleChange}/>
                         </div>
                     </div>
+                    <div className="flex justify-center items-center">
                     {
                         active ?
                             <div>
-                                <button type="submit"className={styles.submitbtn}>Mint</button>
+                                <button type="submit" className="bg-green-500 text-center hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Mint</button>
                                 <h1 className={styles.center}>Your Current Stamp</h1>
                                 <UserStamp stamp={state}/>
                             </div>
-                            : <p className={styles.center}>Connect Wallet</p>
+                            : <p className="bg-green-500 text-center hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Connect Wallet</p>
                     }
+                    </div>
                 </div>
             </form> 
+            </div>
         </div>
     );
 }
