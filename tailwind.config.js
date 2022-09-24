@@ -14,8 +14,8 @@ module.exports = {
         'customGreen': '#077272',
         },
         backgroundImage: {
-          'hero-pattern': "url('/public/Hero_image.png')",
-          'green-texture': "url('/public/greentexture.png')",
+          'hero-pattern': "url('/Hero_image.png')",
+          'green-texture': "url('/greentexture.png')",
         },
 
         screens: {
