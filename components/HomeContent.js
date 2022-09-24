@@ -17,7 +17,7 @@ function HomeContent() {
         <div className="flex flex-col relative h-72 py-64 w-screen justify-center bg-hero-pattern">
           <div className="flex items-center justify-center">
             <h1 className="text-white text-center text-2xl lg:text-5xl">
-              Join our global hunt for hidden <br></br> treasures <br></br> off
+              Join our global hunt for hidden <br></br> art <br></br> off
               and on-chain
             </h1>
           </div>
@@ -35,7 +35,7 @@ function HomeContent() {
             <div className="ew-full">
               <h5 className="text-center mb-10 text-3xl md:text-4xl">
                 Ready to go on an adventure, explore <br></br> the world and
-                start <br></br> your stamp collection?
+                start <br></br> your art collection?
               </h5>
             </div>
             <div className="flex w-5/6 sm:w-4/6 md:w-3/5 lg:w-2/5 xl:w-2/6 justify-evenly">
