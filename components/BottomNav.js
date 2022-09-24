@@ -14,7 +14,7 @@ export default function BottomNav() {
               </Link>
               <Link href="#">
                 <a className="text-white text-sm pt-1 pb-1 text-center md:text-left font-nunito">
-                  FAQ's
+                {"FAQ's"}
                 </a>
               </Link>
               <Link href="#">

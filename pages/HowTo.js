@@ -129,7 +129,7 @@ function HowTo() {
                   onClick={handleClick}
                   className="bg-green-500  w-32 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >
-                  Let's Go
+                  {"Let's Go"}
                 </button>
               </div>
             </div>
