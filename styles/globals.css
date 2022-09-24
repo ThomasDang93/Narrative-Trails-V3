@@ -13,31 +13,11 @@ a {
   text-decoration: none;
 }
 .content {
-  max-width: 960px;
-  margin: 0 auto;
-}
-nav {
-  margin: 10px auto 60px;
-  padding: 10px 0;
-  justify-content: flex-end;
-  align-items: flex-end;
-  border-bottom: 1px solid #ddd;
+  /* max-width: 960px; */
+  /* margin: 0 auto; */
+  /* width: 100wv; */
 }
 
-nav a {
-  margin-left: 20px;
-}
-nav .logo {
-  margin-right: 40px;
-}
-footer {
-  display: block;
-  text-align: center;
-  padding: 30px 0;
-  margin-top: 60px;
-  color: #777;
-  border-top: 1px solid #eaeaea;
-}
 .not-found {
   text-align: center;
 }
@@ -60,3 +40,20 @@ li {
 .displayflex {
   display: flex
 }
+
+
+/* Navigation CSS */
+/* nav {
+  margin: 10px auto 60px;
+  padding: 10px 0;
+  justify-content: flex-end;
+  align-items: flex-end;
+  border-bottom: 1px solid #ddd;
+}
+
+nav a {
+  margin-left: 20px;
+}
+nav .logo {
+  margin-right: 40px;
+} */
