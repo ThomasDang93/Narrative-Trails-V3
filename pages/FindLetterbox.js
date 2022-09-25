@@ -26,13 +26,16 @@ const FindLetterbox = () => {
     const getLetterboxes = async () => {
         const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
         let allLetterboxes = await contract.letterboxList(); 
+        
         let letterBoxList = [];
+        
         for (let i = 0; i < allLetterboxes.length; i++) {
-            const iboxResources = await contract.getFullResources(
-                allLetterboxes[i].toNumber()
-            );
-            const iboxURI = iboxResources[0].metadataURI;
-            await fetch(iboxURI)
+            console.log('allLetterboxes: ' + allLetterboxes[i].toNumber()); //token ID
+            const iboxResources = await contract.getActiveResources(allLetterboxes[i].toNumber()); 
+            console.log('iboxResources: ' + iboxResources[0]); //resource ID
+            const{id, metadataURI} = await contract.getResource(iboxResources[0]);
+            console.log('metadataURI: ' + metadataURI);
+            await fetch(metadataURI)
                 .then(response => response.json())
                 .then(data => {
                     letterBoxList.push({
