@@ -8,7 +8,6 @@ import fleek from '@fleekhq/fleek-storage-js';
 import * as  constants from '../util/constants.js';
 import UserStamp from '../components/UserStamp';
 import { ipfsUpload, getUserStamp } from '../util/nft_operations.js';
-import GettingStarted from '../components/GettingStarted';
 
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 
@@ -124,7 +123,7 @@ const MintStamp = () => {
 
     return (
         <div className="min-h-[calc(100vh_-_80px_-_40px)]">
-            <GettingStarted />
+            {/* <GettingStarted /> */}
             <div className='flex flex-col h-screen justify-center items-center'>
             <form className="w-full max-w-lg -mt-20 bg-white shadow-lg rounded-xl" onSubmit={handleSubmit}>
                 <h1 className="text-4xl mt-14 text-center">Mint NFT Stamp</h1>

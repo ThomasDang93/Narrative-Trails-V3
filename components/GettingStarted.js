@@ -2,6 +2,8 @@ import React from "react";
 import Image from "next/image";
 import lscape from "../public/lscape.png";
 import block from "../public/block.png";
+import LetterboxingIRL from "../public/LetterboxingIRL.svg";
+import LetterboxingNFT from "../public/LetterboxingNFT.svg";
 
 export default function GettingStarted() {
   return (
@@ -15,7 +17,7 @@ export default function GettingStarted() {
                 <Image
                   layout="intrinsic"
                   className=""
-                  src={lscape}
+                  src={LetterboxingIRL}
                   height={125}
                   width={125}
                 />
@@ -30,7 +32,7 @@ export default function GettingStarted() {
                 <Image
                   layout="intrinsic"
                   className=""
-                  src={block}
+                  src={LetterboxingNFT}
                   height={125}
                   width={125}
                 />
