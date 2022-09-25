@@ -16,7 +16,6 @@ const Stamp = () => {
   const router = useRouter();
   const id = router.query.id;
   const {
-    active,
     account,
   } = useWeb3React();
   const [state, setState] = useState({
@@ -27,10 +26,8 @@ const Stamp = () => {
   });
 
   useEffect(() => {
-    if(active) {
       getStamp();
-    }
-  },[active]);
+  },[]);
 
   const getStamp = async () => {
     const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider);
