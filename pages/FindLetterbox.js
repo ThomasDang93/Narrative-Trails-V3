@@ -22,17 +22,17 @@ export const getStaticProps = async () => {
             .then(response => response.json())
             .then(data => {
                 letterBoxList.push({
-                id: allLetterboxes[i].toNumber(),
-                name: data.name,
-                description: data.description,
-                src: data.media_uri_image,
-                city: data.properties.city,
-                country: data.properties.country,
-                lattitude: data.properties.lattitude,
-                longitude: data.properties.longitude,
-                state: data.properties.state,
-                zip: data.properties.zip
-                })
+                    id: allLetterboxes[i].toNumber(),
+                    name: data.name,
+                    description: data.description,
+                    src: data.media_uri_image,
+                    city: data.properties.city,
+                    country: data.properties.country,
+                    lattitude: data.properties.lattitude,
+                    longitude: data.properties.longitude,
+                    state: data.properties.state,
+                    zip: data.properties.zip
+                    })
             });
     }
     return {
