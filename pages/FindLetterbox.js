@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { InjectedConnector } from "@web3-react/injected-connector";
 import LetterBoxList from '../components/LetterBoxList';
@@ -11,13 +10,14 @@ const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ET
 
 export const injected = new InjectedConnector();
   
-export const getStaticProps = async (context) => {
+export const getStaticProps = async () => {
     const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider);
     const allLetterboxes = await contract.letterboxList(); 
+    console.log('All Letterbox IDs: ' + allLetterboxes);
     let letterBoxList = [];
     for (let i = 0; i < allLetterboxes.length; i++) {
         const resources = await contract.getActiveResources(allLetterboxes[i].toNumber()); 
-        const{id, metadataURI} = await contract.getResource(resources[0]);
+        const{ metadataURI } = await contract.getResource(resources[0]);
         await fetch(metadataURI)
             .then(response => response.json())
             .then(data => {
@@ -38,11 +38,10 @@ export const getStaticProps = async (context) => {
     return {
         props: { letterBoxList: letterBoxList }
     };
-}
+};
 const FindLetterbox = ({ letterBoxList }) => {
     return (
-        <div >
-            {console.log("Boxes: " + letterBoxList[1].src)}
+        <div className='h-screen'>
             <div>
                 <div>&nbsp;</div>
                 <h1 className={styles.center}>Letterboxes</h1>

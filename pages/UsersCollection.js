@@ -41,7 +41,7 @@ const UsersCollection = () => {
     };
       
     return (
-        <div>
+        <div className='h-screen'>
             {active ? 
             <div className={styles.center}>
                 <div>&nbsp;</div>

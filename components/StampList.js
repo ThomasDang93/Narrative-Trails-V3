@@ -1,9 +1,9 @@
 import styles from '../styles/Global.module.css';
-const StampList = ({ stampList }) => {
+const StampList = ({ box }) => {
   return (
     <div className={styles.grid}>
-        {stampList.stampBoxList.length > 0 ? 
-        stampList.stampBoxList.map(function(props) {
+        {box.stampList.length > 0 ? 
+        box.stampList.map(function(props) {
             return (
                 <div key={props.src} >
                     <img src={props.src} alt="Image cap" top width="100%"></img>
