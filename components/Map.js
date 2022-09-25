@@ -17,7 +17,7 @@ const Map = ({ state, query }) => {
                     })
                  :
                 navigator.geolocation.getCurrentPosition(position => {
-                    map.innerHTML = renderMap( query.longitude, query.latitude);
+                    map.innerHTML = renderMap( query.properties.longitude, query.properties.lattitude);
                 })
             } 
           </div>
