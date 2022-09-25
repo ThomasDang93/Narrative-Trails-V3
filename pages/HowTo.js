@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import BottomNav from "../components/BottomNav";
 
 function HowTo() {
   const router = useRouter();
@@ -134,8 +133,6 @@ function HowTo() {
               </div>
             </div>
           </div>
-          {/* Section 3 */}
-         <BottomNav />
         </div>
       </>
     </div>
