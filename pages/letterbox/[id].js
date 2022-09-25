@@ -36,10 +36,8 @@ const Letterbox = () => {
   });
 
   useEffect(() => {
-    if(active) {
       getLetterBox();
-    }
-  },[active]);
+  },[]);
 
   const getLetterBox = async () => {
     const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider);
@@ -135,7 +133,7 @@ const Letterbox = () => {
         <div className="w-full px-5">
           <img src={state.src} alt="Image cap" top width="100%"></img>
           <div>&nbsp;</div>
-          <button className={styles.submitbtn} onClick={() => foundLetterbox()}>I found it!</button> 
+          {active ? <button className={styles.submitbtn} onClick={() => foundLetterbox()}>I found it!</button> : ""}
           <div>&nbsp;</div>
           <h2>Resources</h2>
           <StampList stampList={state}/>
