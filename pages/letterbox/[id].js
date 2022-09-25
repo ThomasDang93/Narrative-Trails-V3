@@ -12,6 +12,7 @@ import Map from '../../components/Map';
 export const injected = new InjectedConnector();
 
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
+const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ETHERS_PROVIDER); 
 
 const Letterbox = () => {
   const router = useRouter();
@@ -20,7 +21,6 @@ const Letterbox = () => {
   const {
     active,
     account,
-    library: provider,
   } = useWeb3React();
   const [state, setState] = useState({
         name: "",
@@ -42,7 +42,7 @@ const Letterbox = () => {
   },[active]);
 
   const getLetterBox = async () => {
-    const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
+    const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider);
     const letterboxMetadata = await contract.letterboxMetadataURI(id); //this returns an array
     console.log("letterboxMetadata = " + letterboxMetadata);
     console.log("Type: " + typeof letterboxMetadata);
