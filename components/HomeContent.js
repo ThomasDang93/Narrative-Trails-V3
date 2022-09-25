@@ -39,12 +39,12 @@ function HomeContent() {
               </h5>
             </div>
             <div className="flex w-5/6 sm:w-4/6 md:w-3/5 lg:w-2/5 xl:w-2/6 justify-evenly">
-              <button className="bg-green-500 w-32 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              <button className="bg-green-500 w-32 hover:bg-[#355176] text-white font-bold py-2 px-4 rounded">
                 Learn More
               </button>
               <button
                 onClick={handleClick}
-                className="bg-green-500  w-32 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-green-500  w-32 hover:bg-[#355176] text-white font-bold py-2 px-4 rounded"
               >
                 {"Let's Go"}
               </button>

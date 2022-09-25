@@ -12,7 +12,7 @@ import Map from '../../components/Map';
 export const injected = new InjectedConnector();
 
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
-const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ETHERS_PROVIDER); 
+const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ETHERS_PROVIDER);
 
 const Letterbox = () => {
   const router = useRouter();
@@ -64,14 +64,12 @@ const Letterbox = () => {
     const resources = await contract.getActiveResources(id);
     console.log('resources: ' + resources); //resource ID
     console.log('Type: ' + typeof resources);
-    // const{id, metadataURI} = await contract.getResource(resources[0]);
-    // console.log('metadataURI: ' + metadataURI);
     let stampList = [];
     let counter = 0;
     for(const resource in resources) {
       if(counter !== 0) {
         console.log("resource: " + resources[resource]);
-        const returnedResource = await contract.getResource(resources[resource]);//resources[i].metadataURI;
+        const returnedResource = await contract.getResource(resources[resource]);
         console.log("returnedResource: ", returnedResource);
         const resourceURI = returnedResource.metadataURI;
         console.log("resourceURI: ", resourceURI);

@@ -7,6 +7,7 @@ import LetterBoxingABI from "../../util/LetterBoxing.json";
 import * as  constants from '../../util/constants.js';
 import StampResources from '../../components/StampResources.js';
 import { useRouter } from 'next/router';
+import styles from '../../styles/Global.module.css';
 
 export const injected = new InjectedConnector();
 
@@ -88,7 +89,7 @@ const Stamp = () => {
 
   return (
     <div>
-        {console.log("State: " + state.name)}
+      {active ?
         <div className="flex mb-4 grid grid-cols-1 gap-5 md:grid-cols-2">
           <div className="w-full px-5">
             <h1>Stamp</h1>
@@ -102,7 +103,8 @@ const Stamp = () => {
             <div>&nbsp;</div>
             {<b>Description: </b>} {state.description}
           </div>
-        </div>
+        </div> 
+        : <h1 className={styles.center}>Connect Wallet</h1>}
     </div>
   );
 };
