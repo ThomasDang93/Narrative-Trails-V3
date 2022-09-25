@@ -43,10 +43,12 @@ const Letterbox = () => {
 
   const getLetterBox = async () => {
     const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
-    const iboxURI = await contract.letterboxMetadataURI(id);
-    console.log("iboxURI = ", iboxURI)
+    const letterboxMetadata = await contract.letterboxMetadataURI(id); //this returns an array
+    console.log("letterboxMetadata = " + letterboxMetadata);
+    console.log("Type: " + typeof letterboxMetadata);
+    console.log("metadataURI: " + letterboxMetadata[0]); 
     let letterboxList;
-    await fetch(iboxURI)
+    await fetch(letterboxMetadata[0])
         .then(response => response.json())
         .then(data => {
             letterboxList = {
@@ -61,18 +63,31 @@ const Letterbox = () => {
                 zip: data.properties.zip
         }});
 
-    const resources = await contract.getFullResources(id);
+    const resources = await contract.getActiveResources(id);
+    console.log('resources: ' + resources); //resource ID
+    console.log('Type: ' + typeof resources);
+    // const{id, metadataURI} = await contract.getResource(resources[0]);
+    // console.log('metadataURI: ' + metadataURI);
     let stampList = [];
-    for(let i = 1; i < resources.length; i++) {
-      const resourceURI = resources[i].metadataURI;
-      console.log("JSON URI: ", resourceURI);
-      await fetch(resourceURI)
-          .then(response => response.json())
-          .then(data => {
-                  stampList.push({
-                    src: data.media_uri_image
-                  });
-          });
+    let counter = 0;
+    for(const resource in resources) {
+      if(counter !== 0) {
+        console.log("resource: " + resources[resource]);
+        const returnedResource = await contract.getResource(resources[resource]);//resources[i].metadataURI;
+        console.log("returnedResource: ", returnedResource);
+        const resourceURI = returnedResource.metadataURI;
+        console.log("resourceURI: ", resourceURI);
+        await fetch(resourceURI)
+            .then(response => response.json())
+            .then(data => {
+                    stampList.push({
+                      src: data.media_uri_image
+                    });
+            });
+        counter++;
+        continue;
+      }
+      counter++;
     }
     setState({
         ...state,
@@ -99,11 +114,11 @@ const Letterbox = () => {
       const contractAddress = DEPLOYED_CONTRACT_ADDRESS;
       const contract = new ethers.Contract(contractAddress, LetterBoxingABI["abi"], signer);
       try{
-        let letterboxResources = await contract.getFullResources(id);
+        let letterboxResources = await contract.getActiveResources(id);
         console.log('letterbox resource count: ', letterboxResources.length);
         await contract.stampToLetterbox(account, id, true);
         await contract.letterboxToStamp(account, id, {gasLimit:500000});
-        letterboxResources = await contract.getFullResources(id);
+        letterboxResources = await contract.getActiveResources(id);
 
       } catch(error) {
         console.log(error);

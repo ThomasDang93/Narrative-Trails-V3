@@ -39,32 +39,35 @@ export const ipfsUpload = async (data) => {
 };
 
 export const getUserStamp = async (data) => {
-  
+  let stampList = [];
   let userStamp = await data.contract.stampHeldBy(data.account); //returns tokenId
   userStamp = userStamp.toNumber();
   console.log("userStamp = ", userStamp);
-  let userResources = await data.contract.getFullResources(userStamp); //returns array of resources
-  let userJSON = userResources[0].metadataURI;
-  console.log("userJson = ", userJSON);
-
-  let stampList = [];
-  //get stamps
-  await fetch(userJSON)
-        .then(response => response.json())
-        .then(data => {
-            stampList.push({
-              id: userStamp,
-              src: data.media_uri_image,
-              name: data.name,
-              description: data.description,
-              city: data.properties.city,
-              country: data.properties.country,
-              lattitude: data.properties.lattitude,
-              longitude: data.properties.longitude,
-              state: data.properties.state,
-              zip: data.properties.zip
-            })
-        });
+  let userResources = await data.contract.getActiveResources(userStamp); //returns array of resources
+  if(userResources.length > 0) {
+    console.log('userResources: ' + userResources[0]); //resource ID
+    const{resourceID, metadataURI} = await data.contract.getResource(userResources[0]);
+    console.log('metadataURI: ' + metadataURI);
+    if(metadataURI) {
+      //get stamps
+      await fetch(metadataURI)
+      .then(response => response.json())
+      .then(data => {
+          stampList.push({
+            id: userStamp,
+            src: data.media_uri_image,
+            name: data.name,
+            description: data.description,
+            city: data.properties.city,
+            country: data.properties.country,
+            lattitude: data.properties.lattitude,
+            longitude: data.properties.longitude,
+            state: data.properties.state,
+            zip: data.properties.zip
+          })
+      });
+    }
+  }
   return stampList;
 };
 
