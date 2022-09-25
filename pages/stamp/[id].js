@@ -9,8 +9,8 @@ import StampResources from '../../components/StampResources.js';
 import { useRouter } from 'next/router';
 
 export const injected = new InjectedConnector();
-
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
+const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ETHERS_PROVIDER); 
 
 const Stamp = () => {
   const router = useRouter();
@@ -18,7 +18,6 @@ const Stamp = () => {
   const {
     active,
     account,
-    library: provider,
   } = useWeb3React();
   const [state, setState] = useState({
     name: "",
@@ -34,7 +33,7 @@ const Stamp = () => {
   },[active]);
 
   const getStamp = async () => {
-    const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
+    const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider);
     let userStamp = await contract.stampHeldBy(account); //returns tokenId
     userStamp = userStamp.toNumber();
     const userResources = await contract.getActiveResources(userStamp); //returns array of resources

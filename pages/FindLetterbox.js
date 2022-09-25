@@ -7,24 +7,21 @@ import styles from '../styles/Global.module.css';
 import LetterBoxingABI from "../util/LetterBoxing.json";
 import * as  constants from '../util/constants.js';
 
-const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
-
 export const injected = new InjectedConnector();
-
+const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
+const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ETHERS_PROVIDER); 
 const FindLetterbox = () => {
-    const { active, library: provider } = useWeb3React();
     const [state, setState] = useState({
         letterBoxList: []
     });
 
     useEffect(() => {
-        if(active) {
             getLetterboxes();
-        }
-    },[active]);
+    },[]);
 
     const getLetterboxes = async () => {
-        const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
+        const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider);
+        console.log('contract: ' + contract)
         let allLetterboxes = await contract.letterboxList(); 
         
         let letterBoxList = [];
@@ -60,15 +57,11 @@ const FindLetterbox = () => {
 
     return (
         <div >
-            {
-                active ? 
-                <div>
-                    <div>&nbsp;</div>
-                    <h1 className={styles.center}>Letterboxes</h1>
-                    <LetterBoxList letterbox={state}/>
-                </div> 
-                : <h1 className={styles.center}>Connect Wallet</h1>
-            }
+            <div>
+                <div>&nbsp;</div>
+                <h1 className={styles.center}>Letterboxes</h1>
+                <LetterBoxList letterbox={state}/>
+            </div> 
         </div>
     );
 };
