@@ -29,18 +29,15 @@ form {
   width: 300px;
   margin: 0 auto;
 }
-
 li { 
   cursor: pointer; 
 }
 .hover {
   cursor: pointer;
 }
-
 .displayflex {
   display: flex
 }
-
 
 /* Navigation CSS */
 /* nav {

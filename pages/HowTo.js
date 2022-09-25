@@ -13,7 +13,7 @@ function HowTo() {
       <>
         <div className="min-h-[calc(100vh_-_80px_-_40px)]">
           {/* Section 1 */}
-          <div className="flex flex-col pt-20 pb-10 w-screen justify-center bg-white">
+          <div className="flex flex-col pt-20 pb-10 w-screen justify-center">
             <div className="flex items-center justify-center">
               <h1 className="text-black text-center text-2xl lg:text-5xl">
                 How to Letterbox<br></br> off and on-chain
@@ -113,7 +113,7 @@ function HowTo() {
             </div>
           </div>
           {/* Section 3 */}
-          <div className=" bg-white py-32 flex align-center justify-center w-screen">
+          <div className="py-32 flex align-center justify-center w-screen">
             <div className="flex w-4/6  flex-col items-center justify-center">
               <div className="ew-full">
                 <h5 className="text-center mb-10 text-3xl md:text-4xl">
@@ -122,12 +122,12 @@ function HowTo() {
                 </h5>
               </div>
               <div className="flex w-5/6 sm:w-4/6 md:w-3/5 lg:w-2/5 xl:w-2/6 justify-evenly">
-                <button className="bg-green-500 w-32 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <button className="bg-green-500 w-32 hover:bg-[#355176] text-white font-bold py-2 px-4 rounded">
                   Learn More
                 </button>
                 <button
                   onClick={handleClick}
-                  className="bg-green-500  w-32 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  className="bg-green-500  w-32 hover:bg-[#355176] text-white font-bold py-2 px-4 rounded"
                 >
                   {"Let's Go"}
                 </button>
