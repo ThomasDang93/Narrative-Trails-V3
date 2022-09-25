@@ -1,7 +1,5 @@
 import React from "react";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import BottomNav from "./BottomNav";
 
 function HomeContent() {
   const router = useRouter();
@@ -30,7 +28,7 @@ function HomeContent() {
           </div>
         </div>
         {/* Section 2 */}
-        <div className=" bg-white py-32 flex align-center justify-center w-screen">
+        <div className="py-32 flex align-center justify-center w-screen">
           <div className="flex w-4/6  flex-col items-center justify-center">
             <div className="ew-full">
               <h5 className="text-center mb-10 text-3xl md:text-4xl">
@@ -51,8 +49,6 @@ function HomeContent() {
             </div>
           </div>
         </div>
-        {/* Section 3 */}
-        <BottomNav />
       </div>
     </>
   );

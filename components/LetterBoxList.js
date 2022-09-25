@@ -2,8 +2,9 @@ import Link from 'next/link';
 const LetterBoxList = ({ letterbox }) => {
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {letterbox.letterBoxList.length > 0 ? 
-        letterbox.letterBoxList.map(function(props) {
+      {console.log("letterbox: " + letterbox[0].src)}
+        {letterbox.length > 0 ? 
+        letterbox.map(function(props) {
             return (
               <div key={props.id} className="grid grid-cols-1 gap-5">
                 <div className="rounded overflow-hidden shadow-lg">
