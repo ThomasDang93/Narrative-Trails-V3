@@ -60,7 +60,8 @@ export const getStaticProps = async (context) => {
   data.stampList = stampList;
 
   return {
-    props: { box: data }
+    props: { box: data },
+    revalidate: 10
   };
 };
 

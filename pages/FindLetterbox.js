@@ -4,7 +4,6 @@ import LetterBoxList from '../components/LetterBoxList';
 import styles from '../styles/Global.module.css';
 import LetterBoxingABI from "../util/LetterBoxing.json";
 import * as  constants from '../util/constants.js';
-import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
@@ -47,11 +46,6 @@ export const getStaticProps = async () => {
     };
 };
 const FindLetterbox = ({ letterBoxList }) => {
-    // const router = useRouter();
-    // useEffect(() => {
-    //     router.replace(router.asPath);
-    //     console.log("I am refreshing")
-    // },[]);
     return (
         <div className='h-screen'>
             <div>
