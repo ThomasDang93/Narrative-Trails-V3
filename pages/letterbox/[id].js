@@ -9,8 +9,8 @@ import StampList from "../../components/StampList";
 import * as  constants from '../../util/constants.js';
 import Map from '../../components/Map';
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
-const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ETHERS_PROVIDER);
-const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider);
+const ethersProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ETHERS_PROVIDER);
+const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], ethersProvider);
 export const injected = new InjectedConnector();
 export const getStaticPaths = async () => {
   let allLetterboxes = await contract.letterboxList(); 
@@ -69,6 +69,7 @@ const Letterbox = ({ box }) => {
   const {
     active,
     account,
+    library: provider,
   } = useWeb3React();
 
   const foundLetterbox = async () => {
