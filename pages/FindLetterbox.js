@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
-const provider = new ethers.providers.JsonRpcProvider('https://moonbase-alpha.blastapi.io/c0e220fa-8b8b-4f6b-8cfa-3fe0b89191dd');//process.env.NEXT_PUBLIC_ETHERS_PROVIDER);
+const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ETHERS_PROVIDER);
 
 export const injected = new InjectedConnector();
   
