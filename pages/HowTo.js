@@ -143,7 +143,7 @@ function HowTo() {
                   allowed are jpeg and png. <br></br>
                   Mint the image to create <br></br>
                   your NFT stamp on the <br></br>
-                  blockchain and you're <br></br>
+                  blockchain and you&apos;re <br></br>
                   ready to go. 
                 </p>
               </div>
