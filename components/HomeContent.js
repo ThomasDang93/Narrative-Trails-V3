@@ -19,7 +19,7 @@ function HomeContent() {
               and on-chain
             </h1>
           </div>
-          <div className=" bg-black opacity-70 flex items-center h-1/6 py-3 absolute bottom-0">
+          <div className="bg-black opacity-70 flex items-center h-1/6 py-3 absolute bottom-0">
             <div className="flex justify-center items-center flex-col w-screen bottom-0">
               <h1 className="text-white text-center text-base sm:text-xl lg:text-2xl">
                 We add an NFT layer to the fun experience of letter-boxing!
@@ -28,7 +28,7 @@ function HomeContent() {
           </div>
         </div>
         {/* Section 2 */}
-        <div className="py-32 flex align-center justify-center w-screen">
+        <div className="py-32 flex align-center justify-center w-screen bg-stamp-background">
           <div className="flex w-4/6  flex-col items-center justify-center">
             <div className="ew-full">
               <h5 className="text-center mb-10 text-3xl md:text-4xl">
@@ -37,9 +37,9 @@ function HomeContent() {
               </h5>
             </div>
             <div className="flex w-5/6 sm:w-4/6 md:w-3/5 lg:w-2/5 xl:w-2/6 justify-evenly">
-              <button className="bg-green-500 w-32 hover:bg-[#355176] text-white font-bold py-2 px-4 rounded">
+              {/* <button className="bg-green-500 w-32 hover:bg-[#355176] text-white font-bold py-2 px-4 rounded">
                 Learn More
-              </button>
+              </button> */}
               <button
                 onClick={handleClick}
                 className="bg-green-500  w-32 hover:bg-[#355176] text-white font-bold py-2 px-4 rounded"

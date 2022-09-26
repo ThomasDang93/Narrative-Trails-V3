@@ -16,6 +16,7 @@ module.exports = {
         backgroundImage: {
           'hero-pattern': "url('/Hero_image.png')",
           'green-texture': "url('/greentexture.png')",
+          'stamp-background': "url('/Landingpage_background.png')"
         },
 
         screens: {
