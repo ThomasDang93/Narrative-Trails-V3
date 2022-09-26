@@ -30,7 +30,8 @@ export default function GettingStarted() {
                 IRL Have your stamp, ink pad <br></br>and notepade at the ready.
               </p>
             </div>
-            <button className="flex flex-col items-center px-6 py-8 bg-white rounded-xl shadow-sm  hover:text-white hover:bg-slate-400 hover:border-1 hover:cursor-pointer hover:shadow-xl">
+            <button 
+                  onClick={handleClick} className="flex flex-col items-center px-6 py-8 bg-white rounded-xl shadow-sm  hover:text-white hover:bg-slate-400 hover:border-1 hover:cursor-pointer hover:shadow-xl">
               <div className="pt-14">
                 <Image
                   layout="intrinsic"
@@ -38,7 +39,6 @@ export default function GettingStarted() {
                   src={LetterboxingNFT}
                   height={125}
                   width={125}
-                  onClick={handleClick}
                 />
               </div>
               <h5 className="text-center text-2xl pt-5 pb-3">On-chain</h5>
