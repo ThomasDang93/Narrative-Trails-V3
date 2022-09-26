@@ -47,7 +47,7 @@ export const getStaticProps = async () => {
 };
 const FindLetterbox = ({ letterBoxList }) => {
     return (
-        <div className='h-screen'>
+        <div className=''>
             <div>
                 <div>&nbsp;</div>
                 <h1 className={styles.center}>Letterboxes</h1>
