@@ -42,15 +42,16 @@ export const getStaticProps = async () => {
             });
     }
     return {
-        props: { letterBoxList: letterBoxList }
+        props: { letterBoxList: letterBoxList },
+        revalidate: 10
     };
 };
 const FindLetterbox = ({ letterBoxList }) => {
-    const router = useRouter();
-    useEffect(() => {
-        router.replace(router.asPath);
-        console.log("I am refreshing")
-    },[]);
+    // const router = useRouter();
+    // useEffect(() => {
+    //     router.replace(router.asPath);
+    //     console.log("I am refreshing")
+    // },[]);
     return (
         <div className='h-screen'>
             <div>
