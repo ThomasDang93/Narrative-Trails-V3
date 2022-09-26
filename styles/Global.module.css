@@ -1,5 +1,5 @@
 .connectbtn {
-  margin-left: 18px;
+  margin-left: -6px;
   width: 110px;
   padding: 1px 0;
   background: #6c9d99;
@@ -19,9 +19,9 @@
 }
 
 .staticposition {
-  position: absolute
+  position: absolute;
 }
-  
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -30,10 +30,6 @@
 
 .grid img {
   width: 100%;
-}
-
-.container {
-  columns: 2 auto;
 }
 
 .submitbtn {
@@ -53,3 +49,5 @@
   margin: auto;
   padding: 10px;
 }
+
+/* Is this on the usersCollection page?  */

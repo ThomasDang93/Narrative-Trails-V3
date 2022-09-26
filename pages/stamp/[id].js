@@ -7,6 +7,7 @@ import LetterBoxingABI from "../../util/LetterBoxing.json";
 import * as  constants from '../../util/constants.js';
 import StampResources from '../../components/StampResources.js';
 import { useRouter } from 'next/router';
+import styles from '../../styles/Global.module.css';
 
 export const injected = new InjectedConnector();
 
@@ -37,29 +38,46 @@ const Stamp = () => {
     const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
     let userStamp = await contract.stampHeldBy(account); //returns tokenId
     userStamp = userStamp.toNumber();
-    const userResources = await contract.getFullResources(userStamp); //returns array of resources
-    const userJSON = userResources[0].metadataURI;
+    const userResources = await contract.getActiveResources(userStamp); //returns array of resources
+    const returnedResource = await contract.getResource(userResources[0]);
+    console.log("userResources: " + returnedResource);
+    console.log("Type: " + typeof returnedResource);
+    const userJSON = returnedResource.metadataURI;
+    console.log("userJSON: " + userJSON);
     let stampMetaData;
     await fetch(userJSON)
         .then(response => response.json())
         .then(data => {
+            console.log("Returned Data: " + data.name);
             stampMetaData = {
                 name: data.name,
                 description: data.description,
                 src: data.media_uri_image
         }});
-
-        let letterBoxMeta = [];
-        for(let i = 1; i < userResources.length; i++) {
-          const resourceURI = userResources[i].metadataURI;
-          await fetch(resourceURI)
-              .then(response => response.json())
-              .then(data => {
-                      letterBoxMeta.push({
-                        src: data.media_uri_image
-                      });
-              });
+    console.log("StampMetaData:  " + stampMetaData.src);
+    console.log("userResources:  " + userResources);
+    console.log("Type: " + typeof userResources);
+    let letterBoxMeta = [];
+    let counter = 0;
+    for(const userResource in userResources) {
+      if(counter !== 0) {
+        console.log("resource: " + userResources[userResource]);
+        const returnedResource = await contract.getResource(userResources[userResource]);
+        console.log("returnedResource: ", returnedResource);
+        const resourceURI = returnedResource.metadataURI;
+        await fetch(resourceURI)
+            .then(response => response.json())
+            .then(data => {
+                    letterBoxMeta.push({
+                      src: data.media_uri_image
+                    });
+            });
+        counter++;
+        continue;
         }
+      counter++;
+    }
+    
     setState({
         ...state,
         name: stampMetaData.name,
@@ -71,6 +89,7 @@ const Stamp = () => {
 
   return (
     <div>
+      {active ?
         <div className="flex mb-4 grid grid-cols-1 gap-5 md:grid-cols-2">
           <div className="w-full px-5">
             <h1>Stamp</h1>
@@ -84,7 +103,8 @@ const Stamp = () => {
             <div>&nbsp;</div>
             {<b>Description: </b>} {state.description}
           </div>
-        </div>
+        </div> 
+        : <h1 className={styles.center}>Connect Wallet</h1>}
     </div>
   );
 };

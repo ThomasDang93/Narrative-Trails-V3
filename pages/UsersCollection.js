@@ -8,6 +8,8 @@ import UserStamp from '../components/UserStamp';
 import * as  constants from '../util/constants.js';
 import { getUserStamp } from '../util/nft_operations.js';
 
+import GettingStarted from '../components/GettingStarted';
+
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 
 export const injected = new InjectedConnector();
@@ -41,13 +43,13 @@ const UsersCollection = () => {
     };
       
     return (
-        <div>
-            {active ? 
+        <div className='h-screen'>
+            {active && state.stampList.length > 0 ? 
             <div className={styles.center}>
                 <div>&nbsp;</div>
                 <h1>Stamps</h1>
                 <UserStamp stamp={state} />
-            </div> : <h1 className={styles.center}>Connect Wallet</h1>}
+            </div> : <GettingStarted />}
         </div>
     );
 };

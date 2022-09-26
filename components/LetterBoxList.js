@@ -1,9 +1,11 @@
 import Link from 'next/link';
 const LetterBoxList = ({ letterbox }) => {
+  const filteredBoxes = letterbox.filter(letterbox => letterbox.isStamp === false);
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {letterbox.letterBoxList.length > 0 ? 
-        letterbox.letterBoxList.map(function(props) {
+        {filteredBoxes.length > 0  ? 
+        filteredBoxes.map(function(props) {
+            {console.log(props.isStamp)}
             return (
               <div key={props.id} className="grid grid-cols-1 gap-5">
                 <div className="rounded overflow-hidden shadow-lg">

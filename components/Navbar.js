@@ -34,23 +34,26 @@ export const injected = new InjectedConnector();
         }
       }
     };
-
     
     return (
-      <nav className={`${navbar === false ? 'displayflex' : ""}`}>
-        <div className="logo flex justify-between items-center">
-          <Link href='/'>
-            <a><Image src="/NT_logo271x40px.png" width={271} height={40}/></a>
-          </Link>
-          <div className="px-4 cursor-pointer md:hidden" id="burger" onClick={() => setNavbar(!navbar)}>
+      <>
+      <nav className={`bg-[#f2f2f2] w-screen sticky top-0 z-10 backdrop-filter backdrop-blur-lg bg-opacity-30 border-b border-gray-200 ${navbar === false ? 'displayflex' : ""}`}>
+        <div className="flex w-screen bg-none justify-between items-center">
+          <div className="ml-8">
+            <Link href='/'>
+              <a><Image src="/NT_logo271x40px.png" width={271} height={40}/></a>
+            </Link>
+          </div>
+
+          <button className="px-4 cursor-pointer md:hidden" id="burger" onClick={() => setNavbar(!navbar)}>
             <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
-          </div> 
+          </button> 
         </div>
-        <div className={`text-sm mt-6 ${navbar === false ? "hidden" : ""}  flex flex-col gap-2 md:block md:w-auto`} id='menu'>
-          <Link href='/MintLetterBox'><a >Plant Letter Box</a></Link>
-          <Link href='/MintStamp'><a >Make Stamp</a></Link>
-          <Link href='/FindLetterbox'><a >Find Letterbox</a></Link>
-          <Link href='/UsersCollection'><a >My Collection</a></Link>
+        <div className={`px-2 pt-2 pb-4 justify-evenly items-center text-xs lg:text-sm h-full w-7/12 lg:w-6/12 gap-2 md:flex ${navbar === false ? "hidden" : "block"}  `} id='menu'>
+          <Link href='/MintLetterBox'><a className="mt-1 block px-2 py-1 text-black">Plant Letter Box</a></Link>
+          <Link href='/MintStamp'><a className="mt-1 block px-2 py-1 text-black">Make Stamp</a></Link>
+          <Link href='/FindLetterbox'><a className="mt-1 block px-2 py-1 text-black"  >Find Letterbox</a></Link>
+          <Link href='/UsersCollection'><a className="mt-1 block px-2 py-1 text-black" >My Collection</a></Link>
           {hasMetamask ? (
               active ? (
                   <button className={`${styles.connectbtn}`} >Connected</button>
@@ -62,9 +65,8 @@ export const injected = new InjectedConnector();
           )}
         </div>
       </nav>
+      </>
     );
   };
-
-  //${navbar === false ? "hidden" : ""} 
-   
+  
   export default Navbar;

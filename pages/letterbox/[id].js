@@ -8,64 +8,41 @@ import LetterBoxingABI from "../../util/LetterBoxing.json";
 import StampList from "../../components/StampList";
 import * as  constants from '../../util/constants.js';
 import Map from '../../components/Map';
-
-export const injected = new InjectedConnector();
-
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
+const ethersProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ETHERS_PROVIDER);
+const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], ethersProvider);
+export const injected = new InjectedConnector();
+export const getStaticPaths = async () => {
+  let allLetterboxes = await contract.letterboxList(); 
+  console.log('allLetterboxes: ' + allLetterboxes);
+  let paths = [];
+  for (let i = 0; i < allLetterboxes.length; i++) {
+      paths.push({
+          params: {
+              id: allLetterboxes[i].toString()
+          }
+      });
+  }
+  return {
+    paths,
+    fallback: false
+  };
+};
 
-const Letterbox = () => {
-  const router = useRouter();
-  const { query } = useRouter();
-  const id = router.query.id;
-  const {
-    active,
-    account,
-    library: provider,
-  } = useWeb3React();
-  const [state, setState] = useState({
-        name: "",
-        description: "",
-        src: "",
-        city: "",
-        country: "",
-        lattitude: "",
-        longitude: "",
-        state: "",
-        zip: "",
-        stampBoxList: []
-  });
-
-  useEffect(() => {
-    if(active) {
-      getLetterBox();
-    }
-  },[active]);
-
-  const getLetterBox = async () => {
-    const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
-    const iboxURI = await contract.letterboxMetadataURI(id);
-    console.log("iboxURI = ", iboxURI)
-    let letterboxList;
-    await fetch(iboxURI)
-        .then(response => response.json())
-        .then(data => {
-            letterboxList = {
-                name: data.name,
-                description: data.description,
-                src: data.media_uri_image,
-                city: data.properties.city,
-                country: data.properties.country,
-                lattitude: data.properties.lattitude,
-                longitude: data.properties.longitude,
-                state: data.properties.state,
-                zip: data.properties.zip
-        }});
-
-    const resources = await contract.getFullResources(id);
-    let stampList = [];
-    for(let i = 1; i < resources.length; i++) {
-      const resourceURI = resources[i].metadataURI;
-      console.log("JSON URI: ", resourceURI);
+export const getStaticProps = async (context) => {
+  console.log("Letterbox ID: " + context.params.id);
+  const resources = await contract.getActiveResources(parseInt(context.params.id)); 
+  console.log("Number of Resources: " + resources.length)
+  const{ metadataURI } = await contract.getResource(resources[0]);
+  let stampList = [];
+  let counter = 0;
+  for(const resource in resources) {
+    if(counter !== 0) {
+      console.log("resource: " + resources[resource]);
+      const returnedResource = await contract.getResource(resources[resource]);
+      console.log("returnedResource: ", returnedResource);
+      const resourceURI = returnedResource.metadataURI;
+      console.log("resourceURI: ", resourceURI);
       await fetch(resourceURI)
           .then(response => response.json())
           .then(data => {
@@ -73,24 +50,29 @@ const Letterbox = () => {
                     src: data.media_uri_image
                   });
           });
+      counter++;
+      continue;
     }
-    setState({
-        ...state,
-        name: letterboxList.name,
-        description: letterboxList.description,
-        src: letterboxList.src,
-        city: letterboxList.city,
-        country: letterboxList.country,
-        lattitude: letterboxList.lattitude,
-        longitude: letterboxList.longitude,
-        state: letterboxList.state,
-        zip: letterboxList.zip,
-        stampBoxList: stampList
-    });
-    router.query.latitude = letterboxList.lattitude;
-    router.query.longitude = letterboxList.longitude;
-    router.push(router);
+    counter++;
+  }
+  const res = await fetch(metadataURI); //
+  let data = await res.json();
+  data.stampList = stampList;
+
+  return {
+    props: { box: data },
+    revalidate: 10
   };
+};
+
+const Letterbox = ({ box }) => {
+  const router = useRouter();
+  const id = router.query.id;
+  const {
+    active,
+    account,
+    library: provider,
+  } = useWeb3React();
 
   const foundLetterbox = async () => {
     if (active) {
@@ -99,11 +81,11 @@ const Letterbox = () => {
       const contractAddress = DEPLOYED_CONTRACT_ADDRESS;
       const contract = new ethers.Contract(contractAddress, LetterBoxingABI["abi"], signer);
       try{
-        let letterboxResources = await contract.getFullResources(id);
+        let letterboxResources = await contract.getActiveResources(id);
         console.log('letterbox resource count: ', letterboxResources.length);
         await contract.stampToLetterbox(account, id, true);
         await contract.letterboxToStamp(account, id, {gasLimit:500000});
-        letterboxResources = await contract.getFullResources(id);
+        letterboxResources = await contract.getActiveResources(id);
 
       } catch(error) {
         console.log(error);
@@ -118,33 +100,33 @@ const Letterbox = () => {
     <div>
       <div className="flex mb-4 grid grid-cols-1 gap-5 md:grid-cols-2">
         <div className="w-full px-5">
-          <img src={state.src} alt="Image cap" top width="100%"></img>
+          <img src={box.media_uri_image} alt="Image cap" top width="100%"></img>
           <div>&nbsp;</div>
-          <button className={styles.submitbtn} onClick={() => foundLetterbox()}>I found it!</button> 
+          {active ? <button className={styles.submitbtn} onClick={() => foundLetterbox()}>I found it!</button> : ""}
           <div>&nbsp;</div>
           <h2>Resources</h2>
-          <StampList stampList={state}/>
+          <StampList box={box}/>
         </div>
         <div className="w-full px-5">
-          <h1>{<b>Name: </b>} {state.name} {" #"}{id}</h1>
+          <h1>{<b>Name: </b>} {box.name} {" #"}{id}</h1>
           <div>&nbsp;</div>
-          {<b>Description: </b>} {state.description}
+          {<b>Description: </b>} {box.description}
           <div>&nbsp;</div>
-          {<b>City: </b>} {state.city}
+          {<b>City: </b>} {box.properties.city}
           <div>&nbsp;</div>
-          {<b>State: </b>} {state.state}
+          {<b>State: </b>} {box.properties.state}
           <div>&nbsp;</div>
-          {<b>Country: </b>} {state.country}
+          {<b>Country: </b>} {box.properties.country}
           <div>&nbsp;</div>
-          {<b>Zip: </b>} {state.zip}
+          {<b>Zip: </b>} {box.properties.zip}
           <div>&nbsp;</div>
-          {<b>Lattitude: </b>} {query.latitude}
+          {<b>Lattitude: </b>} {box.properties.lattitude}
           <div>&nbsp;</div>
-          {<b>Longitude: </b>} {query.longitude}
+          {<b>Longitude: </b>} {box.properties.longitude}
           <div>&nbsp;</div>
-          {<b>City: </b>} {state.city}
+          {<b>City: </b>} {box.properties.city}
           <div>&nbsp;</div>
-          <Map state={state} query={query}/>
+          <Map query={box}/>
         </div>
       </div>
     </div>

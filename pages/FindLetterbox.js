@@ -1,41 +1,31 @@
-import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import LetterBoxList from '../components/LetterBoxList';
 import styles from '../styles/Global.module.css';
 import LetterBoxingABI from "../util/LetterBoxing.json";
 import * as  constants from '../util/constants.js';
+import React, { useState, useEffect } from 'react';
 
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
+const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ETHERS_PROVIDER);
 
 export const injected = new InjectedConnector();
-
-const FindLetterbox = () => {
-    const { active, library: provider } = useWeb3React();
-    const [state, setState] = useState({
-        letterBoxList: []
-    });
-
-    useEffect(() => {
-        if(active) {
-            getLetterboxes();
-        }
-    },[active]);
-
-    const getLetterboxes = async () => {
-        const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
-        let allLetterboxes = await contract.letterboxList(); 
-        let letterBoxList = [];
-        for (let i = 0; i < allLetterboxes.length; i++) {
-            const iboxResources = await contract.getFullResources(
-                allLetterboxes[i].toNumber()
-            );
-            const iboxURI = iboxResources[0].metadataURI;
-            await fetch(iboxURI)
-                .then(response => response.json())
-                .then(data => {
-                    letterBoxList.push({
+  
+export const getStaticProps = async () => {
+    const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider);
+    const allLetterboxes = await contract.letterboxList(); 
+    console.log('All Letterbox IDs: ' + allLetterboxes[0]);
+    let letterBoxList = [];
+    for (let i = 0; i < allLetterboxes.length; i++) {
+        const resources = await contract.getActiveResources(allLetterboxes[i].toNumber()); 
+        const{ metadataURI } = await contract.getResource(resources[0]);
+        await fetch(metadataURI)
+            .then(response => response.json())
+            .then(data => {
+                console.log("isStamp: " + data.properties.isStamp)
+                let isStamp;
+                data.properties.isStamp === true ? isStamp = true : isStamp = false;
+                letterBoxList.push({
                     id: allLetterboxes[i].toNumber(),
                     name: data.name,
                     description: data.description,
@@ -45,27 +35,24 @@ const FindLetterbox = () => {
                     lattitude: data.properties.lattitude,
                     longitude: data.properties.longitude,
                     state: data.properties.state,
-                    zip: data.properties.zip
-                    })
-                });
-        }
-        setState({
-            ...state,
-            letterBoxList: letterBoxList
-        });
+                    zip: data.properties.zip,
+                    isStamp: isStamp
+                })
+            });
+    }
+    return {
+        props: { letterBoxList: letterBoxList },
+        revalidate: 10
     };
-
+};
+const FindLetterbox = ({ letterBoxList }) => {
     return (
-        <div >
-            {
-                active ? 
-                <div>
-                    <div>&nbsp;</div>
-                    <h1 className={styles.center}>Letterboxes</h1>
-                    <LetterBoxList letterbox={state}/>
-                </div> 
-                : <h1 className={styles.center}>Connect Wallet</h1>
-            }
+        <div className='h-screen'>
+            <div>
+                <div>&nbsp;</div>
+                <h1 className={styles.center}>Letterboxes</h1>
+                <LetterBoxList letterbox={letterBoxList}/>
+            </div> 
         </div>
     );
 };
