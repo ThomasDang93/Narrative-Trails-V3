@@ -13,7 +13,7 @@ export const injected = new InjectedConnector();
 export const getStaticProps = async () => {
     const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider);
     const allLetterboxes = await contract.letterboxList(); 
-    console.log('All Letterbox IDs: ' + allLetterboxes);
+    console.log('All Letterbox IDs: ' + allLetterboxes[0]);
     let letterBoxList = [];
     for (let i = 0; i < allLetterboxes.length; i++) {
         const resources = await contract.getActiveResources(allLetterboxes[i].toNumber()); 
@@ -21,6 +21,9 @@ export const getStaticProps = async () => {
         await fetch(metadataURI)
             .then(response => response.json())
             .then(data => {
+                console.log("isStamp: " + data.properties.isStamp)
+                let isStamp;
+                data.properties.isStamp === true ? isStamp = true : isStamp = false;
                 letterBoxList.push({
                     id: allLetterboxes[i].toNumber(),
                     name: data.name,
@@ -31,8 +34,9 @@ export const getStaticProps = async () => {
                     lattitude: data.properties.lattitude,
                     longitude: data.properties.longitude,
                     state: data.properties.state,
-                    zip: data.properties.zip
-                    })
+                    zip: data.properties.zip,
+                    isStamp: isStamp
+                })
             });
     }
     return {

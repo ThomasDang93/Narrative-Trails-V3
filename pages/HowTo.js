@@ -1,10 +1,13 @@
 import React from "react";
+import Image from "next/image";
 import { useRouter } from "next/router";
-
+import NFT from "../public/NFT.svg";
+import NFTcollection from "../public/NFTcollection.svg";
+import DownArrow from "../public/DownArrow.svg";
 function HowTo() {
   const router = useRouter();
   const handleClick = () => {
-    router.push("/MintStamp");
+    router.push("/UsersCollection");
   };
   return (
     <div>
@@ -110,8 +113,62 @@ function HowTo() {
               </div>
             </div>
           </div>
-          {/* Section 3 */}
-          <div className="py-32 flex align-center justify-center w-screen">
+          <div className="flex flex-col">
+            <Image
+              layout="intrinsic"
+              src={DownArrow}
+              height={125}
+              width={125}
+            />
+          </div>
+          <div className="flex flex-col h-screen items-center justify-center">
+          
+            {/* Section 3 */}
+          <div className="-mt-32">
+            <h5 className="text-3xl text-center pb-10">NFT-enhanced letterboxing</h5>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+              <div className="flex items-center px-6 py-8 hover:text-white bg-white rounded-xl shadow-sm hover:bg-slate-400 hover:border-1 hover:cursor-pointer hover:shadow-xl">
+                <div className="pt-14">
+                  <Image
+                    layout="intrinsic"
+                    src={NFT}
+                    height={125}
+                    width={125}
+                  />
+                </div>
+                <p className="text-center pb-10 px-3">
+                  Scan or take a snapshot of <br></br>
+                  your stamp impression on <br></br>
+                  paper - file formats <br></br>
+                  allowed are jpeg and png. <br></br>
+                  Mint the image to create <br></br>
+                  your NFT stamp on the <br></br>
+                  blockchain and you&apos;re <br></br>
+                  ready to go. 
+                </p>
+              </div>
+              <div className="flex items-center px-6 py-8 bg-white rounded-xl shadow-sm hover:bg-slate-400 hover:border-1 hover:cursor-pointer hover:shadow-xl">
+                <div className="pt-14">
+                  <Image
+                    layout="intrinsic"
+                    src={NFTcollection}
+                    height={125}
+                    width={125}
+                  />
+                </div>
+                <p className=" text-center pb-10 px-3">
+                  Add your NFT stamp to <br></br>
+                  the NFT of the letterboxes <br></br>
+                  you visit and collect the <br></br>
+                  NFT letterbox stamps to <br></br>
+                  add up to your collection.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+          {/* Section 4 */}
+          <div className="py-4 flex align-center justify-center w-screen">
             <div className="flex w-4/6  flex-col items-center justify-center">
               <div className="ew-full">
                 <h5 className="text-center mb-10 text-3xl md:text-4xl">
@@ -120,9 +177,9 @@ function HowTo() {
                 </h5>
               </div>
               <div className="flex w-5/6 sm:w-4/6 md:w-3/5 lg:w-2/5 xl:w-2/6 justify-evenly">
-                <button className="bg-green-500 w-32 hover:bg-[#355176] text-white font-bold py-2 px-4 rounded">
+                {/* <button className="bg-green-500 w-32 hover:bg-[#355176] text-white font-bold py-2 px-4 rounded">
                   Learn More
-                </button>
+                </button> */}
                 <button
                   onClick={handleClick}
                   className="bg-green-500  w-32 hover:bg-[#355176] text-white font-bold py-2 px-4 rounded"
