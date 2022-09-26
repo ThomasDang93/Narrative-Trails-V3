@@ -32,6 +32,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
   console.log("Letterbox ID: " + context.params.id);
   const resources = await contract.getActiveResources(parseInt(context.params.id)); 
+  console.log("Number of Resources: " + resources.length)
   const{ metadataURI } = await contract.getResource(resources[0]);
   let stampList = [];
   let counter = 0;
