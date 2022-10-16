@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ethers } from 'ethers';
 import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
@@ -8,6 +8,7 @@ import fleek from '@fleekhq/fleek-storage-js';
 import * as  constants from '../util/constants.js';
 import { ipfsUpload } from '../util/nft_operations.js';
 import Map from '../components/Map';
+import QRCode from 'qrcode';
 
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 
@@ -32,6 +33,30 @@ const MintLetterBox = () => {
         selectedAddress: "",
     });
     const [file, setFile] = useState({});
+    const [url, setUrl] = useState('')
+    const [qrcode, setQRcode] = useState('');
+
+    const handleQRCodeGenerator = async (event) => {
+        event.preventDefault();
+        if(url !== '') {
+            QRCode.toDataURL(url, {
+                width: 800,
+                margin: 2,
+                color: {
+                    dark: '#335383FF',
+                    light: '#EEEEEEFF'
+                }
+            }, (err, url) => {
+                if (err) {
+                    return console.error(err);
+                }
+                console.log(url);
+                setQRcode(url);
+            });
+        } else {
+            alert('Please enter a Letterbox Name.');
+        }
+    }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -161,6 +186,15 @@ const MintLetterBox = () => {
         change[event.target.name] = event.target.value;
         setState(change);
     };
+
+    const handleNameChange = (event) => {
+        let change = {
+            ...state
+        };
+        change[event.target.name] = event.target.value;
+        setState(change);
+        setUrl(event.target.value);
+    };
     return (
         <div>  
             <form className="w-full max-w-lg" onSubmit={handleSubmit}>
@@ -172,14 +206,32 @@ const MintLetterBox = () => {
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="name">
                                 Name
                             </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="name" name="name" type="text" placeholder="Letterbox Name" onChange={handleChange}/>
+                            <input  className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
+                                    id="name" 
+                                    name="name" 
+                                    type="text" 
+                                    placeholder="Letterbox Name" 
+                                    value={url}
+                                    onChange={handleNameChange}/>
                         </div>
                         <div className="w-full md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="upload">
-                            Upload
+                                Upload
                             </label>
                             <input className="appearance-none text-gray-700 py-3 px-4 " id="upload" name="upload"type="file" onChange={handleFileChange}/>
                         </div>
+                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="qr-button">  
+                            </label>
+                            <button onClick={handleQRCodeGenerator} id="qr-button" className="appearance-none block w-full bg-[#335383FF] text-white border rounded py-3 px-4 mb-3 leading-tight focus:outline-none hover:bg-green-700">Generate QR Code</button>
+                        </div>
+                        {
+                            qrcode && <>
+                            <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                <img src={qrcode} className="w-full hover" top width="100%"></img>
+                                <a href={qrcode} className="appearance-none block w-full bg-[#335383FF] text-white border rounded py-3 px-4 mb-3 leading-tight focus:outline-none hover:bg-green-700" download="qrcode.png">Download</a>
+                            </div>
+                        </>}
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
                         <div className="w-full px-3">
