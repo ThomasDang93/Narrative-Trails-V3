@@ -35,11 +35,10 @@ const MintLetterBox = () => {
     const [file, setFile] = useState({});
     const [url, setUrl] = useState('')
     const [qrcode, setQRcode] = useState('');
-
     const handleQRCodeGenerator = async (event) => {
         event.preventDefault();
         if(url !== '') {
-            QRCode.toDataURL(url, {
+            QRCode.toDataURL(`https://${window.location.hostname}/letterboxes/${url.replace(/\s+/g, '-')}`, {
                 width: 800,
                 margin: 2,
                 color: {
@@ -50,7 +49,6 @@ const MintLetterBox = () => {
                 if (err) {
                     return console.error(err);
                 }
-                console.log(url);
                 setQRcode(url);
             });
         } else {

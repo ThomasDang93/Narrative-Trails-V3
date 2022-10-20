@@ -67,6 +67,7 @@ export const getStaticProps = async (context) => {
 
 const Letterbox = ({ box }) => {
   const router = useRouter();
+  console.log({router});
   const id = router.query.id;
   const {
     active,
