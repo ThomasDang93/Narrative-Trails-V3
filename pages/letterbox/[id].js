@@ -33,43 +33,37 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   let data;
-  try {
-    const letterboxMetaData = await contract.getLetterboxFromURL(context.params.id);
-    console.log('TokenID: ' + letterboxMetaData[1]);
-    const letterboxTokenID = letterboxMetaData[1];
-    console.log("Letterbox Hash: " + context.params.id);
-    const resources = await contract.getActiveResources(letterboxTokenID); 
-    console.log("Number of Resources: " + resources.length)
-    const{ metadataURI } = await contract.getResource(resources[0]);
-    let stampList = [];
-    let counter = 0;
-    for(const resource in resources) {
-      if(counter !== 0) {
-        console.log("resource: " + resources[resource]);
-        const returnedResource = await contract.getResource(resources[resource]);
-        console.log("returnedResource: ", returnedResource);
-        const resourceURI = returnedResource.metadataURI;
-        console.log("resourceURI: ", resourceURI);
-        await fetch(resourceURI)
-            .then(response => response.json())
-            .then(data => {
-                    stampList.push({
-                      src: data.media_uri_image
-                    });
-            });
-        counter++;
-        continue;
-      }
+  const letterboxMetaData = await contract.getLetterboxFromURL(context.params.id);
+  console.log('TokenID: ' + letterboxMetaData[1]);
+  const letterboxTokenID = letterboxMetaData[1];
+  console.log("Letterbox Hash: " + context.params.id);
+  const resources = await contract.getActiveResources(letterboxTokenID); 
+  console.log("Number of Resources: " + resources.length)
+  const{ metadataURI } = await contract.getResource(resources[0]);
+  let stampList = [];
+  let counter = 0;
+  for(const resource in resources) {
+    if(counter !== 0) {
+      console.log("resource: " + resources[resource]);
+      const returnedResource = await contract.getResource(resources[resource]);
+      console.log("returnedResource: ", returnedResource);
+      const resourceURI = returnedResource.metadataURI;
+      console.log("resourceURI: ", resourceURI);
+      await fetch(resourceURI)
+          .then(response => response.json())
+          .then(data => {
+                  stampList.push({
+                    src: data.media_uri_image
+                  });
+          });
       counter++;
+      continue;
     }
-    const res = await fetch(metadataURI);
-    data = await res.json();
-    data.stampList = stampList;
-  } catch(err) {
-    return {
-      notFound: true
-    }
+    counter++;
   }
+  const res = await fetch(metadataURI);
+  data = await res.json();
+  data.stampList = stampList;
   return {
     props: { box: data },
     revalidate: 1
