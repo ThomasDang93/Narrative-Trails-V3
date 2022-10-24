@@ -8,18 +8,20 @@ import LetterBoxingABI from "../../util/LetterBoxing.json";
 import StampList from "../../components/StampList";
 import * as  constants from '../../util/constants.js';
 import Map from '../../components/Map';
+import QRCode from 'qrcode';
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 const ethersProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ETHERS_PROVIDER);
 const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], ethersProvider);
 export const injected = new InjectedConnector();
+
 export const getStaticPaths = async () => {
-  let allLetterboxes = await contract.letterboxList(); 
-  console.log('allLetterboxes: ' + allLetterboxes);
+  let letterboxUrls = await contract.letterboxUrlList();
+  console.log('letterboxUrls: ' + letterboxUrls);
   let paths = [];
-  for (let i = 0; i < allLetterboxes.length; i++) {
+  for (let i = 0; i < letterboxUrls.length; i++) {
       paths.push({
           params: {
-              id: allLetterboxes[i].toString()
+              id: letterboxUrls[i]
           }
       });
   }
@@ -30,8 +32,11 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (context) => {
-  console.log("Letterbox ID: " + context.params.id);
-  const resources = await contract.getActiveResources(parseInt(context.params.id)); 
+  const letterboxMetaData = await contract.getLetterboxFromURL(context.params.id);
+  console.log('TokenID: ' + letterboxMetaData[1]);
+  const letterboxTokenID = letterboxMetaData[1];
+  console.log("Letterbox Hash: " + context.params.id);
+  const resources = await contract.getActiveResources(letterboxTokenID); 
   console.log("Number of Resources: " + resources.length)
   const{ metadataURI } = await contract.getResource(resources[0]);
   let stampList = [];
@@ -55,7 +60,7 @@ export const getStaticProps = async (context) => {
     }
     counter++;
   }
-  const res = await fetch(metadataURI); //
+  const res = await fetch(metadataURI);
   let data = await res.json();
   data.stampList = stampList;
 
@@ -67,13 +72,16 @@ export const getStaticProps = async (context) => {
 
 const Letterbox = ({ box }) => {
   const router = useRouter();
+  console.log(box)
   console.log({router});
   const id = router.query.id;
+  console.log("URL Hash: " , id)
   const {
     active,
     account,
     library: provider,
   } = useWeb3React();
+  const [qrcode, setQRcode] = useState('');
 
   const foundLetterbox = async () => {
     if (active) {
@@ -96,6 +104,24 @@ const Letterbox = ({ box }) => {
       console.log("Please install MetaMask");
     }
   };
+  useEffect(() => {
+    let letterboxUrl = window.location.href;
+    let url = letterboxUrl;
+    console.log(url);
+    QRCode.toDataURL(url, {
+            width: 800,
+            margin: 2,
+            color: {
+                dark: '#335383FF',
+                light: '#EEEEEEFF'
+            }
+        }, (err, url) => {
+            if (err) {
+                return console.error(err);
+            }
+            setQRcode(url);
+        });
+},[]);
 
   return (
     <div>
@@ -107,9 +133,10 @@ const Letterbox = ({ box }) => {
           <div>&nbsp;</div>
           <h2>Resources</h2>
           <StampList box={box}/>
+          <img src={qrcode} className="w-full hover" top width="100%"></img>        
         </div>
         <div className="w-full px-5">
-          <h1>{<b>Name: </b>} {box.name} {" #"}{id}</h1>
+          <h1>{<b>Name: </b>} {box.name} </h1>
           <div>&nbsp;</div>
           {<b>Description: </b>} {box.description}
           <div>&nbsp;</div>

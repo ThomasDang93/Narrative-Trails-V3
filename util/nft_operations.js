@@ -1,17 +1,9 @@
-export const ipfsUpload = async (data) => {
+export const ipfsMetaDataUpload = async (data) => {
   try {
-    const formData = new FormData();
-    formData.append('File', data.file);
-    const pictureResult = await data.fleek.upload( {
-        apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
-        apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
-        key: data.imagePath + uuid(),
-        data: formData.get('File'),
-      });
     let metaData = {
         name: data.state.name,
         description: data.state.description,
-        media_uri_image: pictureResult.publicUrl,
+        media_uri_image: data.imageUrl,
         properties: {
             lattitude: data.state.lattitude,
             longitude: data.state.longitude,
@@ -20,7 +12,8 @@ export const ipfsUpload = async (data) => {
             country: data.state.country,
             zip: data.state.zip,
             isLetterBox: data.state.isLetterBox,
-            isStamp: data.state.isStamp
+            isStamp: data.state.isStamp,
+            dateTimeStamp: Date.now()
         }
     };
     const metaDataResult = await data.fleek.upload( {
@@ -36,6 +29,22 @@ export const ipfsUpload = async (data) => {
     console.log(e);
   }
     
+};
+
+export const ipfsImageUpload = async (data) => {
+  try {
+    const formData = new FormData();
+    formData.append('File', data.file);
+    const pictureResult = await data.fleek.upload( {
+        apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
+        apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
+        key: data.imagePath + uuid(),
+        data: formData.get('File'),
+    });
+    return pictureResult;
+    } catch (e) {
+      console.log(e);
+    }
 };
 
 export const getUserStamp = async (data) => {

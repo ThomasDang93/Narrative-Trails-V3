@@ -13,11 +13,12 @@ export const injected = new InjectedConnector();
   
 export const getStaticProps = async () => {
     const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider);
-    const allLetterboxes = await contract.letterboxList(); 
-    console.log('All Letterbox IDs: ' + allLetterboxes[0]);
+    const allLetterboxes = await contract.letterboxUrlList(); 
     let letterBoxList = [];
     for (let i = 0; i < allLetterboxes.length; i++) {
-        const resources = await contract.getActiveResources(allLetterboxes[i].toNumber()); 
+        const letterboxMetaData = await contract.getLetterboxFromURL(allLetterboxes[i]);
+        const letterboxTokenID = letterboxMetaData[1];
+        const resources = await contract.getActiveResources(letterboxTokenID); 
         const{ metadataURI } = await contract.getResource(resources[0]);
         await fetch(metadataURI)
             .then(response => response.json())
@@ -26,17 +27,18 @@ export const getStaticProps = async () => {
                 let isStamp;
                 data.properties.isStamp === true ? isStamp = true : isStamp = false;
                 letterBoxList.push({
-                    id: allLetterboxes[i].toNumber(),
+                    id: allLetterboxes[i],
                     name: data.name,
                     description: data.description,
-                    src: data.media_uri_image,
+                    src: data.hasOwnProperty('media_uri_image') ? data.media_uri_image : null,
                     city: data.properties.city,
                     country: data.properties.country,
                     lattitude: data.properties.lattitude,
                     longitude: data.properties.longitude,
                     state: data.properties.state,
                     zip: data.properties.zip,
-                    isStamp: isStamp
+                    isStamp: isStamp,
+                    tokenID: letterboxTokenID.toString()
                 })
             });
     }
