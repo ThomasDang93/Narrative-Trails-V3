@@ -59,7 +59,7 @@ const MintStamp = () => {
                     state: state
                 });
                 const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
-                const tx = contract.mintStamp(account, metaDataResult.publicUrl);
+                const tx = await contract.mintStamp(account, metaDataResult.publicUrl);
                 const receipt = await tx.wait();
                 const event = receipt.events.find(x => x.event === "StampCreated");
                 if(event.args.tokenId) {
