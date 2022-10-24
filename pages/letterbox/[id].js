@@ -27,7 +27,7 @@ export const getStaticPaths = async () => {
   }
   return {
     paths,
-    fallback: false
+    fallback: true
   };
 };
 
@@ -125,8 +125,14 @@ const Letterbox = ({ box }) => {
         });
 },[]);
 
-  return (
-    <div>
+if (router.isFallback) {
+  return <div>Loading...</div>
+}
+
+return (
+  <div>
+    {
+      // router.isFallback ? <div>Loading...</div> :
       <div className="flex mb-4 grid grid-cols-1 gap-5 md:grid-cols-2">
         <div className="w-full px-5">
           <img src={box.media_uri_image} alt="Image cap" top width="100%"></img>
@@ -159,8 +165,9 @@ const Letterbox = ({ box }) => {
           <Map query={box}/>
         </div>
       </div>
-    </div>
-  );
+    }
+  </div>
+);
 };
  
 export default Letterbox;
