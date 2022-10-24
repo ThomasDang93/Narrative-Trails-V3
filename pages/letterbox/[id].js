@@ -32,6 +32,7 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (context) => {
+  let data;
   try {
     const letterboxMetaData = await contract.getLetterboxFromURL(context.params.id);
     console.log('TokenID: ' + letterboxMetaData[1]);
@@ -62,17 +63,17 @@ export const getStaticProps = async (context) => {
       counter++;
     }
     const res = await fetch(metadataURI);
-    let data = await res.json();
+    data = await res.json();
     data.stampList = stampList;
-    return {
-      props: { box: data },
-      revalidate: 1
-    };
   } catch(err) {
     return {
       notFound: true
     }
   }
+  return {
+    props: { box: data },
+    revalidate: 1
+  };
 };
 
 const Letterbox = ({ box }) => {
