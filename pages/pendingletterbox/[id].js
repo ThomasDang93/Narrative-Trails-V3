@@ -31,7 +31,7 @@ export const getServerSideProps = async ({ params }) => {
     return {
         props: {
             pendingLetterboxes: pendingLetterboxes,
-            revalidate: 10
+            revalidate: 1
         }
     };
 };

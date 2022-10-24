@@ -44,7 +44,7 @@ export const getStaticProps = async () => {
     }
     return {
         props: { letterBoxList: letterBoxList },
-        revalidate: 10
+        revalidate: 1
     };
 };
 const FindLetterbox = ({ letterBoxList }) => {
