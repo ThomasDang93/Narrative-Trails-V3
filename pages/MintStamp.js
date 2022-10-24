@@ -7,7 +7,7 @@ import LetterBoxingABI from "../util/LetterBoxing.json";
 import fleek from '@fleekhq/fleek-storage-js';  
 import * as  constants from '../util/constants.js';
 import UserStamp from '../components/UserStamp';
-import { ipfsMetaDataUpload, getUserStamp } from '../util/nft_operations.js';
+import { ipfsMetaDataUpload, ipfsImageUpload, getUserStamp } from '../util/nft_operations.js';
 
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 
