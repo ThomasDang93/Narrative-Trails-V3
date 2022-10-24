@@ -1,0 +1,18 @@
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+    provider             = "mysql"
+    url                  = env("NEXT_PUBLIC_DATABASE_URL")
+    referentialIntegrity = "prisma"
+}
+
+model PendingLetterbox {
+    id Int @id @default(autoincrement())
+    wallet_address String
+    letterbox_name String @unique
+    image_uri String @unique
+    url_hash String @unique
+}
