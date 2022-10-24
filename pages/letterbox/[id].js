@@ -32,42 +32,47 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (context) => {
-  const letterboxMetaData = await contract.getLetterboxFromURL(context.params.id);
-  console.log('TokenID: ' + letterboxMetaData[1]);
-  const letterboxTokenID = letterboxMetaData[1];
-  console.log("Letterbox Hash: " + context.params.id);
-  const resources = await contract.getActiveResources(letterboxTokenID); 
-  console.log("Number of Resources: " + resources.length)
-  const{ metadataURI } = await contract.getResource(resources[0]);
-  let stampList = [];
-  let counter = 0;
-  for(const resource in resources) {
-    if(counter !== 0) {
-      console.log("resource: " + resources[resource]);
-      const returnedResource = await contract.getResource(resources[resource]);
-      console.log("returnedResource: ", returnedResource);
-      const resourceURI = returnedResource.metadataURI;
-      console.log("resourceURI: ", resourceURI);
-      await fetch(resourceURI)
-          .then(response => response.json())
-          .then(data => {
-                  stampList.push({
-                    src: data.media_uri_image
-                  });
-          });
+  try {
+    const letterboxMetaData = await contract.getLetterboxFromURL(context.params.id);
+    console.log('TokenID: ' + letterboxMetaData[1]);
+    const letterboxTokenID = letterboxMetaData[1];
+    console.log("Letterbox Hash: " + context.params.id);
+    const resources = await contract.getActiveResources(letterboxTokenID); 
+    console.log("Number of Resources: " + resources.length)
+    const{ metadataURI } = await contract.getResource(resources[0]);
+    let stampList = [];
+    let counter = 0;
+    for(const resource in resources) {
+      if(counter !== 0) {
+        console.log("resource: " + resources[resource]);
+        const returnedResource = await contract.getResource(resources[resource]);
+        console.log("returnedResource: ", returnedResource);
+        const resourceURI = returnedResource.metadataURI;
+        console.log("resourceURI: ", resourceURI);
+        await fetch(resourceURI)
+            .then(response => response.json())
+            .then(data => {
+                    stampList.push({
+                      src: data.media_uri_image
+                    });
+            });
+        counter++;
+        continue;
+      }
       counter++;
-      continue;
     }
-    counter++;
+    const res = await fetch(metadataURI);
+    let data = await res.json();
+    data.stampList = stampList;
+    return {
+      props: { box: data },
+      revalidate: 1
+    };
+  } catch(err) {
+    return {
+      notFound: true
+    }
   }
-  const res = await fetch(metadataURI);
-  let data = await res.json();
-  data.stampList = stampList;
-
-  return {
-    props: { box: data },
-    revalidate: 1
-  };
 };
 
 const Letterbox = ({ box }) => {
@@ -123,16 +128,16 @@ const Letterbox = ({ box }) => {
             }
             setQRcode(url);
         });
-},[]);
+  },[]);
 
-if (router.isFallback) {
-  return <div>Loading...</div>
-}
+  if (router.isFallback) {
+    return (
+      <div>Loading...</div>
+    )
+  }
 
-return (
-  <div>
-    {
-      // router.isFallback ? <div>Loading...</div> :
+  return (
+    <div>
       <div className="flex mb-4 grid grid-cols-1 gap-5 md:grid-cols-2">
         <div className="w-full px-5">
           <img src={box.media_uri_image} alt="Image cap" top width="100%"></img>
@@ -165,9 +170,8 @@ return (
           <Map query={box}/>
         </div>
       </div>
-    }
-  </div>
-);
+    </div>
+  );
 };
  
 export default Letterbox;
