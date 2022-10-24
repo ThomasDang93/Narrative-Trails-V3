@@ -90,20 +90,22 @@ const Letterbox = ({ box }) => {
       const contractAddress = DEPLOYED_CONTRACT_ADDRESS;
       const contract = new ethers.Contract(contractAddress, LetterBoxingABI["abi"], signer);
       try{
-        let letterboxResources = await contract.getActiveResources(id);
+        const letterboxMetaData = await contract.getLetterboxFromURL(id);
+        const letterboxTokenID = letterboxMetaData[1];
+        let letterboxResources = await contract.getActiveResources(letterboxTokenID);
         console.log('letterbox resource count: ', letterboxResources.length);
-        await contract.stampToLetterbox(account, id, true);
-        await contract.letterboxToStamp(account, id, {gasLimit:500000});
-        letterboxResources = await contract.getActiveResources(id);
-
+        await contract.stampToLetterbox(account, letterboxTokenID, true);
+        await contract.letterboxToStamp(account, letterboxTokenID, {gasLimit:500000});
+        letterboxResources = await contract.getActiveResources(letterboxTokenID);
       } catch(error) {
-        console.log(error);
+          console.log(error);
       }
         
     } else {
       console.log("Please install MetaMask");
     }
   };
+  
   useEffect(() => {
     let letterboxUrl = window.location.href;
     let url = letterboxUrl;
