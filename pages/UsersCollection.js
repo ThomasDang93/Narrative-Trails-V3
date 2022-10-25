@@ -9,7 +9,7 @@ import * as  constants from '../util/constants.js';
 import { getUserStamp } from '../util/nft_operations.js';
 import PendingLetterBoxList from '../components/PendingLetterBoxList';
 import GettingStarted from '../components/GettingStarted';
-import { useRouter } from "next/router";
+import useSWR from "swr";
 
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 
@@ -22,45 +22,34 @@ const UsersCollection = () => {
         library: provider 
     } = useWeb3React();
     const [state, setState] = useState({
-        stampList: [],
-        pendingLetterboxes: []
+        stampList: []
     });
-    const router = useRouter();
-
+    const fetcher = async(...args) => await fetch(...args).then((res) => res.json());
+    const { data, error } = useSWR(
+        `/api/get_pending_letterbox_by_wallet/?wallet_address=${account}`,
+        fetcher
+    );
     useEffect(() => {
         if(active) {
-            getStamp();
             fetchData();
         }
     },[active]);
-
+    
+    useEffect(() => {
+        setState({...state})
+    },[]);
     const fetchData = async() => {
-        await fetch(`/api/get_pending_letterbox_by_wallet/?wallet_address=${account}`, {
-            method: 'GET'
-        }).then(response => response.json())
-            .then(data => {
-                for(let i = 0; i < data.length; i++) {
-                    state.pendingLetterboxes.push({
-                        id: data[i].url_hash,
-                        name: data[i].letterbox_name,
-                        src: data[i].image_uri
-                    })
-                }
-            })
-    };
-
-    const getStamp = async () => {
         const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
-        const stampList = await getUserStamp({
-            account: account,
-            contract: contract
-        });
+        let [stamps] = await Promise.all([getUserStamp({account: account, contract: contract})]);
+        
         setState({
             ...state,
-            stampList: stampList
-        });
+            stampList: stamps
+        });    
     };
-      
+    console.log('Fetched Data: ' + data)
+    if (error) return <div>Failed to load</div>
+    if (!data) return <div>Loading...</div>
     return (
         <div className='h-screen'>
             {console.log(state)}
@@ -71,7 +60,7 @@ const UsersCollection = () => {
                 <UserStamp stamp={state} />
                 <div>&nbsp;</div>
                 <h1 className={styles.center}>Your Pending Letterboxes</h1>
-                <PendingLetterBoxList letterbox={state.pendingLetterboxes}/>
+                <PendingLetterBoxList letterbox={data}/>
             </div> : <GettingStarted />}
         </div>
     );

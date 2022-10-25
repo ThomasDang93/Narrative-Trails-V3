@@ -6,7 +6,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'GET') {
     return res.status(405).json({message: 'Method not allowed'});
   }
-  console.log(req.query.wallet_address);
+  console.log('Wallet Address: ' + req.query.wallet_address);
 
   const response = await prisma.pendingLetterbox.findMany({
         where: {
@@ -20,6 +20,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             wallet_address: true
         }
    });
-
+  console.log(response)
   res.json(response);
 };
