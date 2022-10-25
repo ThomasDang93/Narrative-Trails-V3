@@ -34,10 +34,7 @@ const UsersCollection = () => {
             fetchData();
         }
     },[active]);
-    
-    useEffect(() => {
-        setState({...state})
-    },[]);
+
     const fetchData = async() => {
         const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
         let [stamps] = await Promise.all([getUserStamp({account: account, contract: contract})]);
@@ -52,7 +49,6 @@ const UsersCollection = () => {
     if (!data) return <div>Loading...</div>
     return (
         <div className='h-screen'>
-            {console.log(state)}
             {active && state.stampList.length > 0 ? 
             <div className={styles.center}>
                 <div>&nbsp;</div>
