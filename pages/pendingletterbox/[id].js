@@ -9,6 +9,7 @@ import fleek from '@fleekhq/fleek-storage-js';
 import * as  constants from '../../util/constants.js';
 import { ipfsMetaDataUpload } from '../../util/nft_operations.js';
 import Map from '../../components/Map';
+import ConfirmationModal from '../../components/ConfirmationModal';
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { PrismaClient } from '@prisma/client';
 export const injected = new InjectedConnector();
@@ -57,6 +58,7 @@ const PendingLetterbox = ({ pendingLetterboxes }) => {
     });
     const router = useRouter();
     const [qrcode, setQRcode] = useState('');
+    const [showModal, setShowModal] = useState(false);
     console.log({router});
     
     const handleSubmit = async (event) => {
@@ -65,6 +67,7 @@ const PendingLetterbox = ({ pendingLetterboxes }) => {
         if(form.validation) {
             const confirmation = confirm("Are you sure you want to mint?");
             if(confirmation) {
+                setShowModal(true);
                 const metaDataResult = await ipfsMetaDataUpload({
                     fleek: fleek,
                     imageUrl: state.imageUrl,
@@ -297,8 +300,10 @@ const PendingLetterbox = ({ pendingLetterboxes }) => {
                         </div>
                         : <p className={styles.center}>Connect Wallet</p>
                     }
+                    
                 </div>  
             </form>
+            <ConfirmationModal onClose={() => setShowModal(false)} show={showModal}/>
         </div>
     )
 }
