@@ -10,6 +10,7 @@ const MyApp = ({ Component, pageProps }) => {
         <WalletProvider>
           <Layout>
             <Component {...pageProps} />
+            <div id="modal-root"></div>
           </Layout>
         </WalletProvider>
       </Web3ReactProvider>

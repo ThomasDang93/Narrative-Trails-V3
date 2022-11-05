@@ -9,6 +9,7 @@ import fleek from '@fleekhq/fleek-storage-js';
 import * as  constants from '../../util/constants.js';
 import { ipfsMetaDataUpload } from '../../util/nft_operations.js';
 import Map from '../../components/Map';
+import ConfirmationModal from '../../components/ConfirmationModal';
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { PrismaClient } from '@prisma/client';
 export const injected = new InjectedConnector();
@@ -57,6 +58,7 @@ const PendingLetterbox = ({ pendingLetterboxes }) => {
     });
     const router = useRouter();
     const [qrcode, setQRcode] = useState('');
+    const [showModal, setShowModal] = useState(false);
     console.log({router});
     
     const handleSubmit = async (event) => {
@@ -65,6 +67,7 @@ const PendingLetterbox = ({ pendingLetterboxes }) => {
         if(form.validation) {
             const confirmation = confirm("Are you sure you want to mint?");
             if(confirmation) {
+                setShowModal(true);
                 const metaDataResult = await ipfsMetaDataUpload({
                     fleek: fleek,
                     imageUrl: state.imageUrl,
@@ -249,7 +252,7 @@ const PendingLetterbox = ({ pendingLetterboxes }) => {
                             <textarea className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" rows="4" id="description" name="description" type="textarea" placeholder="Enter instructions here" onChange={handleChange}/>
                         </div>
                     </div>
-                    <Map state={state}/>
+                    <Map state={state}/> 
                     <div className="flex flex-wrap -mx-3 mb-2">
                         <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="lattitude">
@@ -297,8 +300,10 @@ const PendingLetterbox = ({ pendingLetterboxes }) => {
                         </div>
                         : <p className={styles.center}>Connect Wallet</p>
                     }
+                    
                 </div>  
             </form>
+            <ConfirmationModal onClose={() => setShowModal(false)} show={showModal}/>
         </div>
     )
 }
