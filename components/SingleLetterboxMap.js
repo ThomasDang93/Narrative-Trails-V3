@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import ReactMapGL, { GeolocateControl, Marker } from "react-map-gl";
+import ReactMapGL, { GeolocateControl, Marker, NavigationControl } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import GeocoderControl from './GeocoderControl';
 export const mapboxAccessToken = process.env.NEXT_PUBLIC_MAP_BOX_ACCESS_TOKEN;
@@ -20,7 +20,7 @@ const SingleLetterboxMap = ({ query }) => {
         <div>
             <ReactMapGL 
                 {...viewState} 
-                style={{width: 480, height: 400}}
+                style={{width: 380, height: 320}}
                 onMove={evt => setViewState(evt.viewState)}
                 mapStyle="mapbox://styles/mapbox/streets-v9"
                 mapboxAccessToken={`pk.${mapboxAccessToken}`}
@@ -29,6 +29,7 @@ const SingleLetterboxMap = ({ query }) => {
                 <GeolocateControl />
                 <GeocoderControl mapboxAccessToken={`pk.${mapboxAccessToken}`} position="top-left" viewState={viewState}/>
                 <Marker longitude={query.properties.longitude} latitude={query.properties.lattitude} anchor="bottom" onClick={(evt => onMarkerClick(evt))}/>
+                <NavigationControl position="bottom-right"/>
             </ReactMapGL>
         </div>
     );
