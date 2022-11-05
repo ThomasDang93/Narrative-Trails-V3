@@ -8,7 +8,7 @@ import LetterBoxingABI from "../../util/LetterBoxing.json";
 import fleek from '@fleekhq/fleek-storage-js';  
 import * as  constants from '../../util/constants.js';
 import { ipfsMetaDataUpload } from '../../util/nft_operations.js';
-import Map from '../../components/Map';
+import useCurrentMapLocation from '../../components/useCurrentMapLocation';
 import ConfirmationModal from '../../components/ConfirmationModal';
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { PrismaClient } from '@prisma/client';
@@ -59,6 +59,7 @@ const PendingLetterbox = ({ pendingLetterboxes }) => {
     const router = useRouter();
     const [qrcode, setQRcode] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const {viewState, renderMap} = useCurrentMapLocation();
     console.log({router});
     
     const handleSubmit = async (event) => {
@@ -72,7 +73,8 @@ const PendingLetterbox = ({ pendingLetterboxes }) => {
                     fleek: fleek,
                     imageUrl: state.imageUrl,
                     metadataPath: constants.LETTERBOX_METADATA_PATH,
-                    state: state
+                    state: state,
+                    viewState: viewState
                 });
                 const contract = new ethers.Contract(DEPLOYED_CONTRACT_ADDRESS, LetterBoxingABI["abi"], provider.getSigner());
                 const tx = await contract.mintLetterbox(account, pendingLetterboxes.url_hash ,metaDataResult.publicUrl);
@@ -110,6 +112,7 @@ const PendingLetterbox = ({ pendingLetterboxes }) => {
         let errors = {};
         let formIsValid = true;
         const fields = state;
+        const coordinates = viewState;
         const pattern = /^[0-9]{5}(?:-[0-9]{4})?$/;
         const validationList = [
             {
@@ -128,22 +131,22 @@ const PendingLetterbox = ({ pendingLetterboxes }) => {
                 field: "description"
             },
             {
-                condition: !fields["lattitude"],
+                condition: !coordinates["latitude"],
                 message: "Latitude cannot be empty",
                 field: "lattitude"
             },
             {
-                condition: isNaN(fields["lattitude"]) === true,
+                condition: isNaN(coordinates["latitude"]) === true,
                 message: "Latitude must be a number",
                 field: "lattitude"
             },
             {
-                condition: !fields["longitude"],
+                condition: !coordinates["longitude"],
                 message: "Longitude cannot be empty",
                 field: "longitude"
             },
             {
-                condition: isNaN(fields["longitude"]) === true,
+                condition: isNaN(coordinates["longitude"]) === true,
                 message: "Longitude must be a number",
                 field: "longitude"
             },
@@ -224,7 +227,7 @@ const PendingLetterbox = ({ pendingLetterboxes }) => {
 
     return (
         <div>
-            {console.log(state)}
+            {console.log(viewState)}
             <div className={styles.center}>
                 <img src={qrcode} className="w-full hover" top width="100%"></img>
                 <a href={qrcode} className="appearance-none block w-full bg-[#335383FF] text-white border rounded py-3 px-4 mb-3 leading-tight focus:outline-none hover:bg-green-700" download="qrcode.png">Download</a>
@@ -252,19 +255,24 @@ const PendingLetterbox = ({ pendingLetterboxes }) => {
                             <textarea className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" rows="4" id="description" name="description" type="textarea" placeholder="Enter instructions here" onChange={handleChange}/>
                         </div>
                     </div>
-                    <Map state={state}/> 
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                        <div className="w-full px-3">
+                            {renderMap}
+                        </div>
+                    </div>
+                    
                     <div className="flex flex-wrap -mx-3 mb-2">
                         <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="lattitude">
                             Latitude
                             </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="lattitude" name="lattitude" type="text" placeholder="30.0455542" onChange={handleChange}/>
+                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="lattitude" name="lattitude" type="text" placeholder="30.0455542" defaultValue={viewState.latitude} disabled = "disabled"/>
                         </div>
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="longitude">
                         Longitude
                         </label>
-                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="longitude" name="longitude" type="text" placeholder="-99.1405168" onChange={handleChange}/>
+                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="longitude" name="longitude" type="text" placeholder="-99.1405168" defaultValue={viewState.longitude} disabled = "disabled"/>
                     </div>
                         <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="zip">

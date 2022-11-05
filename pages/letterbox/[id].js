@@ -7,7 +7,7 @@ import styles from '../../styles/Global.module.css';
 import LetterBoxingABI from "../../util/LetterBoxing.json";
 import StampList from "../../components/StampList";
 import * as  constants from '../../util/constants.js';
-import Map from '../../components/Map';
+import SingleLetterboxMap from '../../components/SingleLetterboxMap';
 import QRCode from 'qrcode';
 const DEPLOYED_CONTRACT_ADDRESS = constants.DEPLOYED_CONTRACT_ADDRESS;
 const ethersProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ETHERS_PROVIDER);
@@ -162,7 +162,7 @@ const Letterbox = ({ box }) => {
           <div>&nbsp;</div>
           {<b>City: </b>} {box.properties.city}
           <div>&nbsp;</div>
-          <Map query={box}/>
+          <SingleLetterboxMap query={box}/>
         </div>
       </div>
     </div>
