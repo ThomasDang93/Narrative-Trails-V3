@@ -5,8 +5,8 @@ export const ipfsMetaDataUpload = async (data) => {
         description: data.state.description,
         media_uri_image: data.imageUrl,
         properties: {
-            lattitude: data.state.lattitude,
-            longitude: data.state.longitude,
+            lattitude: data.viewState ? data.viewState.latitude: data.state.lattitude,
+            longitude: data.viewState ? data.viewState.longitude : data.state.longitude,
             city: data.state.city,
             state: data.state.state,
             country: data.state.country,

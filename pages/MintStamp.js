@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { useWeb3React } from "@web3-react/core";
@@ -34,6 +35,7 @@ const MintStamp = () => {
         stampList: []
     });
     const [file, setFile] = useState({});
+    const router = useRouter();
 
     useEffect(() => {
         if(active) {
