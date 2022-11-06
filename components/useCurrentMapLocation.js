@@ -2,6 +2,7 @@ import { useState, useRef, useEffect} from "react";
 import ReactMapGL, { GeolocateControl, Marker, NavigationControl } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import GeocoderControl from './GeocoderControl';
+import * as  constants from '../util/constants.js';
 export const mapboxAccessToken = process.env.NEXT_PUBLIC_MAP_BOX_ACCESS_TOKEN;
 const useCurrentMapLocation = () => {
     const mapRef = useRef(null);
@@ -30,11 +31,12 @@ const useCurrentMapLocation = () => {
         viewState,
         renderMap:( 
             <div className="justify-center">
+                {console.log(typeof constants.MAP_OUTDOORS_STYLE)}
                 <ReactMapGL 
                     {...viewState} 
                     style={{width: 380, height: 320}}
                     onMove={evt => setViewState(evt.viewState)}
-                    mapStyle="mapbox://styles/mapbox/streets-v9"
+                    mapStyle={constants.MAP_OUTDOORS_STYLE}
                     mapboxAccessToken={`pk.${mapboxAccessToken}`}
                     ref={(instance) => (mapRef.current = instance)}
                 >
